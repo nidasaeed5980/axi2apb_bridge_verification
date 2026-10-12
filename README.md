@@ -547,7 +547,7 @@ Basic read/write tests are passing, while additional verification scenarios and 
 
 ## Author
 
-**Digital Design Verification Project**
+**Nida Saeed**
 
 Developed using SystemVerilog, UVM 1.2, and Synopsys VCS.
 
