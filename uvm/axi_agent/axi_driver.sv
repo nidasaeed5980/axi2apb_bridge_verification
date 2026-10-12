@@ -2,22 +2,21 @@
 `define AXI_DRIVER_SV
 
 //------------------------------------------------------------
-// AXI DRIVER
+// AXI MASTER DRIVER
 //
-// Supports:
+// Features:
 // 1. Single AXI read/write
 // 2. Independent read and write execution
 // 3. Concurrent AR and AW/W requests
 // 4. Parallel AW and W channels
 // 5. APB wait-state tolerance
-// 6. Delayed RREADY and BREADY
+// 6. Delayed RREADY and BREADY after VALID
 // 7. Back-to-back transactions
 // 8. Mixed read/write traffic
 // 9. Different IDs and USER values
 // 10. Reset during active transactions
 //
-// Note:
-// The DUT supports single-beat AXI transactions.
+// DUT supports single-beat AXI transactions.
 //------------------------------------------------------------
 
 class axi_driver extends uvm_driver #(axi_seq_item);
@@ -33,7 +32,7 @@ class axi_driver extends uvm_driver #(axi_seq_item);
   virtual axi_if vif;
 
   //----------------------------------------------------------
-  // Transaction Handles
+  // Transaction Handle
   //----------------------------------------------------------
   axi_seq_item req;
 
@@ -45,9 +44,6 @@ class axi_driver extends uvm_driver #(axi_seq_item);
 
   //----------------------------------------------------------
   // Reset Generation Counter
-  //
-  // Incrementing this counter invalidates transactions
-  // that were active before reset.
   //----------------------------------------------------------
   int unsigned reset_generation;
 
@@ -77,7 +73,7 @@ class axi_driver extends uvm_driver #(axi_seq_item);
               UVM_LOW)
 
     if (!uvm_config_db#(virtual axi_if)::get(
-            this, "", "axi_vif", vif)) begin
+          this, "", "axi_vif", vif)) begin
 
       `uvm_fatal(get_type_name(),
                  "AXI Virtual Interface Not Found")
@@ -99,10 +95,8 @@ class axi_driver extends uvm_driver #(axi_seq_item);
 
     fork
 
-      // Main sequencer transaction dispatcher
       dispatch_transactions();
 
-      // Asynchronous reset handling
       monitor_reset();
 
     join
@@ -171,11 +165,7 @@ class axi_driver extends uvm_driver #(axi_seq_item);
                 "AXI Reset Asserted - Aborting Active Transactions",
                 UVM_MEDIUM)
 
-      // Reset master-driven signals immediately.
       initialize_signals();
-
-      // Busy flags are released by the aborted workers.
-      // The dispatcher checks reset before accepting work.
 
       wait (vif.ARESETn === 1'b1);
 
@@ -189,9 +179,6 @@ class axi_driver extends uvm_driver #(axi_seq_item);
 
   //----------------------------------------------------------
   // Transaction Dispatcher
-  //
-  // Each accepted transaction starts its own worker.
-  // A read and a write may therefore execute concurrently.
   //----------------------------------------------------------
   virtual task dispatch_transactions();
 
@@ -205,8 +192,6 @@ class axi_driver extends uvm_driver #(axi_seq_item);
 
       seq_item_port.get_next_item(pending_tr);
 
-      // Wait for the corresponding channel to become free.
-      // READ and WRITE have independent busy flags.
       if (pending_tr.op == AXI_READ) begin
 
         wait ((read_busy == 0) ||
@@ -224,19 +209,24 @@ class axi_driver extends uvm_driver #(axi_seq_item);
         `uvm_error(get_type_name(),
                    "Unknown AXI Operation")
 
+        seq_item_port.item_done();
+        continue;
+
       end
 
-      // Do not start a worker while reset is active.
       wait (vif.ARESETn === 1'b1);
 
-      // Recheck availability if reset interrupted the wait.
       if (pending_tr.op == AXI_READ) begin
+
         wait (read_busy == 0);
         read_busy = 1;
+
       end
       else if (pending_tr.op == AXI_WRITE) begin
+
         wait (write_busy == 0);
         write_busy = 1;
+
       end
 
       worker_tr         = pending_tr;
@@ -247,11 +237,6 @@ class axi_driver extends uvm_driver #(axi_seq_item);
                   worker_tr.op.name(), worker_tr.addr),
         UVM_MEDIUM)
 
-      //------------------------------------------------------
-      // Start independent transaction worker.
-      //
-      // Automatic variables preserve each worker's handles.
-      //------------------------------------------------------
       fork
         begin
           automatic axi_seq_item tr = worker_tr;
@@ -261,8 +246,7 @@ class axi_driver extends uvm_driver #(axi_seq_item);
         end
       join_none
 
-      // Transaction is accepted by the driver.
-      // Completion is handled by its independent worker.
+      // Item accepted; worker completes transaction independently.
       seq_item_port.item_done();
 
     end
@@ -271,8 +255,6 @@ class axi_driver extends uvm_driver #(axi_seq_item);
 
   //----------------------------------------------------------
   // Execute Transaction
-  //
-  // fork/join_any allows reset to abort a worker.
   //----------------------------------------------------------
   virtual task execute_transaction(
       axi_seq_item tr,
@@ -289,13 +271,9 @@ class axi_driver extends uvm_driver #(axi_seq_item);
 
         case (tr.op)
 
-          AXI_WRITE: begin
-            drive_write(tr, gen);
-          end
+          AXI_WRITE: drive_write(tr, gen);
 
-          AXI_READ: begin
-            drive_read(tr, gen);
-          end
+          AXI_READ: drive_read(tr, gen);
 
           default: begin
             `uvm_error(get_type_name(),
@@ -322,19 +300,17 @@ class axi_driver extends uvm_driver #(axi_seq_item);
     if (!completed) begin
 
       `uvm_info(get_type_name(),
-        $sformatf("AXI Transaction Aborted by Reset: ADDR=%h",
+        $sformatf("AXI Transaction Aborted by Reset ADDR=%h",
                   tr.addr),
         UVM_MEDIUM)
 
     end
 
-    // Release only the channel owned by this worker.
-    if (tr.op == AXI_READ) begin
+    if (tr.op == AXI_READ)
       read_busy = 0;
-    end
-    else if (tr.op == AXI_WRITE) begin
+
+    else if (tr.op == AXI_WRITE)
       write_busy = 0;
-    end
 
   endtask : execute_transaction
 
@@ -352,16 +328,14 @@ class axi_driver extends uvm_driver #(axi_seq_item);
       UVM_MEDIUM)
 
     //--------------------------------------------------------
-    // AW and W channels run in parallel.
+    // AW and W Channels Run in Parallel
     //--------------------------------------------------------
     fork
 
-      //------------------------------------------------------
-      // AW Channel
-      //------------------------------------------------------
       begin : aw_channel
 
-        repeat (tr.aw_delay) @(negedge vif.ACLK);
+        repeat (tr.aw_delay)
+          @(negedge vif.ACLK);
 
         @(negedge vif.ACLK);
 
@@ -391,12 +365,10 @@ class axi_driver extends uvm_driver #(axi_seq_item);
 
       end
 
-      //------------------------------------------------------
-      // W Channel
-      //------------------------------------------------------
       begin : w_channel
 
-        repeat (tr.w_delay) @(negedge vif.ACLK);
+        repeat (tr.w_delay)
+          @(negedge vif.ACLK);
 
         @(negedge vif.ACLK);
 
@@ -423,12 +395,43 @@ class axi_driver extends uvm_driver #(axi_seq_item);
 
     //--------------------------------------------------------
     // B Response Channel
+    //
+    // FIX:
+    // First observe BVALID.
+    // Then delay BREADY for resp_ready_delay cycles.
     //--------------------------------------------------------
-    repeat (tr.resp_ready_delay) @(negedge vif.ACLK);
 
+    vif.BREADY = 1'b0;
+
+    // Wait for DUT to present a write response.
+    do begin
+      @(posedge vif.ACLK);
+    end while (vif.BVALID !== 1'b1);
+
+    `uvm_info(get_type_name(),
+      $sformatf("AXI BVALID Observed, BREADY Delay=%0d",
+                tr.resp_ready_delay),
+      UVM_MEDIUM)
+
+    // Apply backpressure while DUT holds BVALID.
+    repeat (tr.resp_ready_delay) begin
+
+      @(posedge vif.ACLK);
+
+      if (vif.BVALID !== 1'b1) begin
+
+        `uvm_error(get_type_name(),
+                   "BVALID Dropped While BREADY Was LOW")
+
+      end
+
+    end
+
+    // Drive READY away from sampling edge.
     @(negedge vif.ACLK);
     vif.BREADY = 1'b1;
 
+    // Wait for actual B channel handshake.
     do begin
       @(posedge vif.ACLK);
     end while (vif.BVALID !== 1'b1);
@@ -444,11 +447,11 @@ class axi_driver extends uvm_driver #(axi_seq_item);
 
     end
 
-    // DUT specification: BRESP is OKAY.
+    // Current DUT specification expects OKAY.
     if (tr.resp !== 2'b00) begin
 
       `uvm_error(get_type_name(),
-        $sformatf("WRITE RESPONSE NOT OKAY: BRESP=%b",
+        $sformatf("WRITE RESPONSE NOT OKAY BRESP=%b",
                   tr.resp))
 
     end
@@ -479,6 +482,7 @@ class axi_driver extends uvm_driver #(axi_seq_item);
     //--------------------------------------------------------
     // AR Channel
     //--------------------------------------------------------
+
     @(negedge vif.ACLK);
 
     vif.ARID     = tr.id;
@@ -507,12 +511,43 @@ class axi_driver extends uvm_driver #(axi_seq_item);
 
     //--------------------------------------------------------
     // R Response Channel
+    //
+    // FIX:
+    // First observe RVALID.
+    // Then delay RREADY for resp_ready_delay cycles.
     //--------------------------------------------------------
-    repeat (tr.resp_ready_delay) @(negedge vif.ACLK);
 
+    vif.RREADY = 1'b0;
+
+    // Wait for DUT to present read data.
+    do begin
+      @(posedge vif.ACLK);
+    end while (vif.RVALID !== 1'b1);
+
+    `uvm_info(get_type_name(),
+      $sformatf("AXI RVALID Observed, RREADY Delay=%0d",
+                tr.resp_ready_delay),
+      UVM_MEDIUM)
+
+    // Apply backpressure while DUT holds RVALID.
+    repeat (tr.resp_ready_delay) begin
+
+      @(posedge vif.ACLK);
+
+      if (vif.RVALID !== 1'b1) begin
+
+        `uvm_error(get_type_name(),
+                   "RVALID Dropped While RREADY Was LOW")
+
+      end
+
+    end
+
+    // Drive READY away from sampling edge.
     @(negedge vif.ACLK);
     vif.RREADY = 1'b1;
 
+    // Wait for actual R channel handshake.
     do begin
       @(posedge vif.ACLK);
     end while (vif.RVALID !== 1'b1);
@@ -532,7 +567,7 @@ class axi_driver extends uvm_driver #(axi_seq_item);
     if (tr.resp !== 2'b00) begin
 
       `uvm_error(get_type_name(),
-        $sformatf("READ RESPONSE NOT OKAY: RRESP=%b",
+        $sformatf("READ RESPONSE NOT OKAY RRESP=%b",
                   tr.resp))
 
     end

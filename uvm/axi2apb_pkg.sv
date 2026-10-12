@@ -101,6 +101,7 @@ package axi2apb_pkg;
   //==========================================================
   // 6. ENVIRONMENT
   //==========================================================
+  `include "coverage/coverage.sv"
 
   `include "axi2apb_env.sv"
 

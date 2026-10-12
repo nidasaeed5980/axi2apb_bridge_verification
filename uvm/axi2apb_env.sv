@@ -5,23 +5,24 @@
 // AXI2APB UVM ENVIRONMENT
 //
 // Components:
-//   1. AXI Agent
-//   2. APB Agent
-//   3. AXI2APB Scoreboard
-//   4. AXI2APB Virtual Sequencer
+// 1. AXI Agent
+// 2. APB Agent
+// 3. AXI2APB Scoreboard
+// 4. AXI2APB Virtual Sequencer
+// 5. AXI2APB Functional Coverage
 //
 // Connections:
-//   AXI Monitor --> Scoreboard AXI Analysis Imp
-//   APB Monitor --> Scoreboard APB Analysis Imp
-//
-//   Virtual Sequencer --> AXI Sequencer
-//   Virtual Sequencer --> APB Sequencer
+// AXI Monitor --> Scoreboard
+// APB Monitor --> Scoreboard
+// APB Monitor --> Functional Coverage
+// Virtual Sequencer --> AXI Sequencer
+// Virtual Sequencer --> APB Sequencer
 //============================================================
 
 class axi2apb_env extends uvm_env;
 
   //----------------------------------------------------------
-  // UVM Factory Registration
+  // Factory Registration
   //----------------------------------------------------------
   `uvm_component_utils(axi2apb_env)
 
@@ -29,17 +30,11 @@ class axi2apb_env extends uvm_env;
   // Component Handles
   //----------------------------------------------------------
 
-  // AXI Agent
-  axi_agent axi_agt;
-
-  // APB Agent
-  apb_agent apb_agt;
-
-  // Scoreboard
-  axi2apb_scoreboard scb;
-
-  // Virtual Sequencer
-  axi2apb_virtual_sequencer vseqr;
+  axi_agent                  axi_agt;
+  apb_agent                  apb_agt;
+  axi2apb_scoreboard         scb;
+  axi2apb_virtual_sequencer  vseqr;
+  axi2apb_coverage           cov;
 
   //----------------------------------------------------------
   // Constructor
@@ -63,7 +58,7 @@ class axi2apb_env extends uvm_env;
               UVM_LOW)
 
     //--------------------------------------------------------
-    // Configure Both Agents as ACTIVE
+    // Configure AXI Agent as ACTIVE
     //--------------------------------------------------------
     uvm_config_db#(uvm_active_passive_enum)::set(
       this,
@@ -72,6 +67,9 @@ class axi2apb_env extends uvm_env;
       UVM_ACTIVE
     );
 
+    //--------------------------------------------------------
+    // Configure APB Agent as ACTIVE
+    //--------------------------------------------------------
     uvm_config_db#(uvm_active_passive_enum)::set(
       this,
       "apb_agt",
@@ -123,6 +121,17 @@ class axi2apb_env extends uvm_env;
               "AXI2APB Virtual Sequencer Created Successfully",
               UVM_LOW)
 
+    //--------------------------------------------------------
+    // Create Functional Coverage
+    //--------------------------------------------------------
+    cov = axi2apb_coverage::type_id::create(
+      "cov", this
+    );
+
+    `uvm_info(get_type_name(),
+              "AXI2APB Functional Coverage Created Successfully",
+              UVM_LOW)
+
   endfunction : build_phase
 
   //----------------------------------------------------------
@@ -151,12 +160,24 @@ class axi2apb_env extends uvm_env;
     if (vseqr == null)
       `uvm_fatal(get_type_name(), "Virtual Sequencer is NULL")
 
+    if (cov == null)
+      `uvm_fatal(get_type_name(), "Functional Coverage is NULL")
+
     //--------------------------------------------------------
-    // Connect AXI Monitor to Scoreboard
+    // Check AXI Monitor
     //--------------------------------------------------------
     if (axi_agt.mon == null)
       `uvm_fatal(get_type_name(), "AXI Monitor is NULL")
 
+    //--------------------------------------------------------
+    // Check APB Monitor
+    //--------------------------------------------------------
+    if (apb_agt.mon == null)
+      `uvm_fatal(get_type_name(), "APB Monitor is NULL")
+
+    //--------------------------------------------------------
+    // AXI Monitor --> Scoreboard
+    //--------------------------------------------------------
     axi_agt.mon.ap.connect(scb.axi_imp);
 
     `uvm_info(get_type_name(),
@@ -164,11 +185,8 @@ class axi2apb_env extends uvm_env;
               UVM_LOW)
 
     //--------------------------------------------------------
-    // Connect APB Monitor to Scoreboard
+    // APB Monitor --> Scoreboard
     //--------------------------------------------------------
-    if (apb_agt.mon == null)
-      `uvm_fatal(get_type_name(), "APB Monitor is NULL")
-
     apb_agt.mon.ap.connect(scb.apb_imp);
 
     `uvm_info(get_type_name(),
@@ -176,11 +194,23 @@ class axi2apb_env extends uvm_env;
               UVM_LOW)
 
     //--------------------------------------------------------
-    // Connect AXI Sequencer to Virtual Sequencer
+    // APB Monitor --> Functional Coverage
+    //--------------------------------------------------------
+    apb_agt.mon.ap.connect(cov.analysis_export);
+
+    `uvm_info(get_type_name(),
+              "APB Monitor Connected to Functional Coverage",
+              UVM_LOW)
+
+    //--------------------------------------------------------
+    // Check AXI Sequencer
     //--------------------------------------------------------
     if (axi_agt.seqr == null)
       `uvm_fatal(get_type_name(), "AXI Sequencer is NULL")
 
+    //--------------------------------------------------------
+    // AXI Sequencer --> Virtual Sequencer
+    //--------------------------------------------------------
     vseqr.axi_seqr = axi_agt.seqr;
 
     `uvm_info(get_type_name(),
@@ -188,11 +218,14 @@ class axi2apb_env extends uvm_env;
               UVM_LOW)
 
     //--------------------------------------------------------
-    // Connect APB Sequencer to Virtual Sequencer
+    // Check APB Sequencer
     //--------------------------------------------------------
     if (apb_agt.seqr == null)
       `uvm_fatal(get_type_name(), "APB Sequencer is NULL")
 
+    //--------------------------------------------------------
+    // APB Sequencer --> Virtual Sequencer
+    //--------------------------------------------------------
     vseqr.apb_seqr = apb_agt.seqr;
 
     `uvm_info(get_type_name(),
