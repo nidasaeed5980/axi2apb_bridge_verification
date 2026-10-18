@@ -1,4 +1,4 @@
-
+ 
 // ============================================================
 // VIRTUAL SEQUENCER
 // Purpose: It does not drive any pins. Its only job is to hold 
