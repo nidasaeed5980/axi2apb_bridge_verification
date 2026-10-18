@@ -1,5 +1,5 @@
 class apb_seq_item extends uvm_sequence_item;
-
+ 
     // =====================================================================
     // 1. OBSERVED FIELDS (Captured by APB Monitor from DUT)
     // =====================================================================
