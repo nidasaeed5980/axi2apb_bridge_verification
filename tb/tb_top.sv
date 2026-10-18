@@ -1,8 +1,3 @@
-
-
-
-
-
 `ifndef TB_TOP_SV
 `define TB_TOP_SV
 
