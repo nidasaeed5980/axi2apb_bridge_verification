@@ -1,100 +1,40 @@
-`ifndef APB_AGENT_SV
-`define APB_AGENT_SV
-
-//--------------------------------------------------
+// ============================================================
 // APB AGENT
-//--------------------------------------------------
+// Purpose: Container for APB Driver, Monitor, and Sequencer.
+//          Acts as an APB Slave in our environment.
+// ============================================================
 class apb_agent extends uvm_agent;
+    `uvm_component_utils(apb_agent)
 
-  //--------------------------------------------------
-  // UVM Factory Registration
-  //--------------------------------------------------
-  `uvm_component_utils(apb_agent)
+    // Agent ke andar ke components (Using our custom sequencer class now)
+    apb_driver    drv;
+    apb_monitor   mon;
+    apb_sequencer sqr;
 
-  //--------------------------------------------------
-  // Component Handles
-  //--------------------------------------------------
-  apb_sequencer seqr;
-  apb_driver    drv;
-  apb_monitor   mon;
+    function new(string name, uvm_component parent);
+        super.new(name, parent);
+    endfunction
 
-  //--------------------------------------------------
-  // Constructor
-  //--------------------------------------------------
-  function new(string name = "apb_agent",
-               uvm_component parent = null);
+    // build_phase: Create the components
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        
+        // 1. Monitor hamesha chalta hai (both Active and Passive mode)
+        mon = apb_monitor::type_id::create("mon", this);
 
-    super.new(name, parent);
+        // 2. Driver and Sequencer are only created in ACTIVE mode
+        if (get_is_active() == UVM_ACTIVE) begin
+            drv = apb_driver::type_id::create("drv", this);
+            sqr = apb_sequencer::type_id::create("sqr", this);
+        end
+    endfunction
 
-  endfunction : new
+    // connect_phase: Connect Driver to Sequencer
+    function void connect_phase(uvm_phase phase);
+        if (get_is_active() == UVM_ACTIVE) begin
+            // Connect driver's port to sequencer's export
+            drv.seq_item_port.connect(sqr.seq_item_export);
+        end
+    endfunction
 
-  //--------------------------------------------------
-  // Build Phase
-  //--------------------------------------------------
-  virtual function void build_phase(uvm_phase phase);
-
-    super.build_phase(phase);
-
-    `uvm_info(get_type_name(),
-              "APB Agent Build Phase Executed",
-              UVM_LOW)
-
-    //------------------------------------------------
-    // Create APB Monitor
-    // Monitor is required in ACTIVE and PASSIVE modes
-    //------------------------------------------------
-    mon = apb_monitor::type_id::create("mon", this);
-
-    //------------------------------------------------
-    // Create Driver and Sequencer for ACTIVE Agent
-    //------------------------------------------------
-    if (get_is_active() == UVM_ACTIVE) begin
-
-      seqr = apb_sequencer::type_id::create("seqr", this);
-
-      drv = apb_driver::type_id::create("drv", this);
-
-      `uvm_info(get_type_name(),
-                "APB Agent Configured as ACTIVE",
-                UVM_LOW)
-
-    end
-    else begin
-
-      `uvm_info(get_type_name(),
-                "APB Agent Configured as PASSIVE",
-                UVM_LOW)
-
-    end
-
-  endfunction : build_phase
-
-  //--------------------------------------------------
-  // Connect Phase
-  //--------------------------------------------------
-  virtual function void connect_phase(uvm_phase phase);
-
-    super.connect_phase(phase);
-
-    `uvm_info(get_type_name(),
-              "APB Agent Connect Phase Executed",
-              UVM_LOW)
-
-    //------------------------------------------------
-    // Connect APB Driver to APB Sequencer
-    //------------------------------------------------
-    if (get_is_active() == UVM_ACTIVE) begin
-
-      drv.seq_item_port.connect(seqr.seq_item_export);
-
-      `uvm_info(get_type_name(),
-                "APB Driver Connected to APB Sequencer",
-                UVM_LOW)
-
-    end
-
-  endfunction : connect_phase
-
-endclass : apb_agent
-
-`endif
+endclass

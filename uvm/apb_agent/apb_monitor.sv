@@ -1,249 +1,109 @@
-`ifndef APB_MONITOR_SV
-`define APB_MONITOR_SV
 
-//------------------------------------------------------------
-// APB MONITOR
-//
-// Features:
-// - Observes APB read/write transfers
-// - Captures PADDR, PWDATA, PWRITE
-// - Captures PRDATA and PSLVERR
-// - Counts APB wait states
-// - Supports immediate PREADY
-// - Handles reset during active transfers
-// - Sends completed transactions to scoreboard
-//------------------------------------------------------------
+// class apb_monitor extends uvm_monitor;
+//     `uvm_component_utils(apb_monitor)
+
+//     virtual apb_if vif;
+//     uvm_analysis_port #(apb_seq_item) ap;
+
+//     function new(string name, uvm_component parent);
+//         super.new(name, parent);
+//         ap = new("ap", this);
+//     endfunction
+
+//     function void build_phase(uvm_phase phase);
+//         super.build_phase(phase);
+//         if (!uvm_config_db#(virtual apb_if)::get(this, "", "apb_vif", vif))
+//             `uvm_fatal(get_type_name(), "No APB virtual interface found!")
+//     endfunction
+
+//     task run_phase(uvm_phase phase);
+//         apb_seq_item tr;
+//         bit [31:0] cap_paddr;
+//         bit        cap_pwrite;
+//         bit [31:0] cap_pwdata;
+
+//         wait(vif.PRESETn == 1'b1); // Wait for reset
+
+//         forever begin
+//             // 1. Wait for PSEL (Start of transaction)
+//             do @(vif.mon_cb); while (vif.mon_cb.psel !== 1'b1);
+            
+//             // 2. Capture Address, Direction and Write Data from DUT
+//             cap_paddr  = vif.mon_cb.paddr;
+//             cap_pwrite = vif.mon_cb.pwrite;
+//             cap_pwdata = vif.mon_cb.pwdata;
+
+//             // 3. Wait for PREADY (End of transaction)
+//             do @(vif.mon_cb); while (vif.mon_cb.pready !== 1'b1);
+
+//             // 4. Build transaction
+//             tr = apb_seq_item::type_id::create("mon_apb_tr");
+//             tr.paddr   = cap_paddr;
+//             tr.pwrite  = cap_pwrite;
+//             tr.pwdata  = cap_pwdata;
+//             tr.prdata  = vif.mon_cb.prdata;
+//             tr.pslverr = vif.mon_cb.pslverr;
+
+//             `uvm_info(get_type_name(), $sformatf("APB Captured: %s", tr.convert2string()), UVM_LOW)
+//             ap.write(tr);
+            
+//             // 5. Wait for PSEL to go low before next
+//             do @(vif.mon_cb); while (vif.mon_cb.psel === 1'b1);
+//         end
+//     endtask
+// endclass
+
+
+
 
 class apb_monitor extends uvm_monitor;
+    `uvm_component_utils(apb_monitor)
 
-  //----------------------------------------------------------
-  // UVM Factory Registration
-  //----------------------------------------------------------
-  `uvm_component_utils(apb_monitor)
+    virtual apb_if vif;
+    uvm_analysis_port #(apb_seq_item) ap;
 
-  //----------------------------------------------------------
-  // Virtual Interface
-  //----------------------------------------------------------
-  virtual apb_if vif;
+    function new(string name, uvm_component parent);
+        super.new(name, parent);
+        ap = new("ap", this);
+    endfunction
 
-  //----------------------------------------------------------
-  // Analysis Port
-  //----------------------------------------------------------
-  uvm_analysis_port #(apb_seq_item) ap;
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        if (!uvm_config_db#(virtual apb_if)::get(this, "", "apb_vif", vif))
+            `uvm_fatal(get_type_name(), "No APB virtual interface found!")
+    endfunction
 
-  //----------------------------------------------------------
-  // Transaction Tracking
-  //----------------------------------------------------------
-  apb_seq_item tr;
+    task run_phase(uvm_phase phase);
+        apb_seq_item tr;
+        int unsigned wait_cnt;
 
-  bit transfer_active;
-  int unsigned wait_count;
+        wait(vif.PRESETn == 1'b1);
+        wait_cnt = 0;
 
-  //----------------------------------------------------------
-  // Constructor
-  //----------------------------------------------------------
-  function new(string name = "apb_monitor",
-               uvm_component parent = null);
+        forever begin
+            @(vif.mon_cb);
 
-    super.new(name, parent);
+            // A transfer completes when PENABLE && PREADY (PSEL is always 1 in this RTL)
+            if (vif.mon_cb.penable === 1'b1 && vif.mon_cb.pready === 1'b1) begin
+                tr = apb_seq_item::type_id::create("mon_apb_tr");
+                tr.paddr        = vif.mon_cb.paddr;
+                tr.pwrite       = vif.mon_cb.pwrite;
+                tr.pwdata       = vif.mon_cb.pwdata;
+                tr.prdata       = vif.mon_cb.prdata;
+                tr.pslverr      = vif.mon_cb.pslverr;
+                // first PENABLE cycle is the normal setup cycle, so it is not a wait state
+                tr.pready_delay = (wait_cnt > 0) ? wait_cnt - 1 : 0;
 
-    transfer_active = 0;
-    wait_count      = 0;
-
-  endfunction : new
-
-  //----------------------------------------------------------
-  // Build Phase
-  //----------------------------------------------------------
-  virtual function void build_phase(uvm_phase phase);
-
-    super.build_phase(phase);
-
-    `uvm_info(get_type_name(),
-              "APB Monitor Build Phase Executed",
-              UVM_LOW)
-
-    ap = new("ap", this);
-
-    if (!uvm_config_db#(virtual apb_if)::get(
-          this, "", "apb_vif", vif)) begin
-
-      `uvm_fatal(get_type_name(),
-                 "APB Monitor Virtual Interface Not Found")
-
-    end
-
-  endfunction : build_phase
-
-  //----------------------------------------------------------
-  // Run Phase
-  //----------------------------------------------------------
-  virtual task run_phase(uvm_phase phase);
-
-    `uvm_info(get_type_name(),
-              "APB Monitor Run Phase Executed",
-              UVM_LOW)
-
-    forever begin
-
-      @(posedge vif.PCLK);
-
-      //------------------------------------------------------
-      // Reset Handling
-      //------------------------------------------------------
-      if (vif.PRESETn !== 1'b1) begin
-
-        if (transfer_active) begin
-
-          `uvm_info(get_type_name(),
-                    "APB Reset: Pending Transfer Discarded",
-                    UVM_MEDIUM)
-
+                `uvm_info(get_type_name(), $sformatf("APB Captured: %s", tr.convert2string()), UVM_LOW)
+                ap.write(tr);
+                wait_cnt = 0;
+            end
+            else if (vif.mon_cb.penable === 1'b1) begin
+                wait_cnt++;   // request pending but PREADY still low
+            end
+            else begin
+                wait_cnt = 0;
+            end
         end
-
-        transfer_active = 0;
-        wait_count      = 0;
-        tr              = null;
-
-      end
-      else begin
-
-        monitor_transfer();
-
-      end
-
-    end
-
-  endtask : run_phase
-
-  //----------------------------------------------------------
-  // Monitor APB Transfer
-  //----------------------------------------------------------
-  virtual function void monitor_transfer();
-
-    //--------------------------------------------------------
-    // APB access phase
-    //--------------------------------------------------------
-    if (vif.PSEL === 1'b1 &&
-        vif.PENABLE === 1'b1) begin
-
-      //------------------------------------------------------
-      // Capture new transfer
-      //------------------------------------------------------
-      if (!transfer_active) begin
-
-        tr = apb_seq_item::type_id::create("tr");
-
-        tr.addr  = vif.PADDR;
-        tr.wdata = vif.PWDATA;
-        tr.write = vif.PWRITE;
-
-        wait_count      = 0;
-        transfer_active = 1;
-
-        `uvm_info(get_type_name(),
-          $sformatf(
-            "APB Transfer Detected: ADDR=%h WRITE=%b WDATA=%h",
-            tr.addr, tr.write, tr.wdata),
-          UVM_MEDIUM)
-
-      end
-
-      //------------------------------------------------------
-      // APB wait-state observation
-      //------------------------------------------------------
-      if (vif.PREADY !== 1'b1) begin
-
-        wait_count++;
-
-        `uvm_info(get_type_name(),
-          $sformatf(
-            "APB Wait State Observed: ADDR=%h COUNT=%0d",
-            tr.addr, wait_count),
-          UVM_MEDIUM)
-
-      end
-      else begin
-
-        //----------------------------------------------------
-        // Completed APB handshake
-        //----------------------------------------------------
-        tr.rdata       = vif.PRDATA;
-        tr.slverr      = vif.PSLVERR;
-        tr.wait_cycles = wait_count;
-
-        //----------------------------------------------------
-        // Protocol consistency checks
-        //----------------------------------------------------
-        if (vif.PADDR !== tr.addr) begin
-
-          `uvm_error(get_type_name(),
-            $sformatf(
-              "APB Address Changed During Transfer: OLD=%h NEW=%h",
-              tr.addr, vif.PADDR))
-
-        end
-
-        if (vif.PWRITE !== tr.write) begin
-
-          `uvm_error(get_type_name(),
-                     "APB PWRITE Changed During Transfer")
-
-        end
-
-        if (tr.write && vif.PWDATA !== tr.wdata) begin
-
-          `uvm_error(get_type_name(),
-                     "APB PWDATA Changed During Write Transfer")
-
-        end
-
-        //----------------------------------------------------
-        // Send completed transaction to scoreboard
-        //----------------------------------------------------
-        ap.write(tr);
-
-        `uvm_info(get_type_name(),
-          $sformatf(
-            "APB TRANSFER COMPLETE: ADDR=%h WRITE=%b WDATA=%h RDATA=%h WAIT=%0d PSLVERR=%b",
-            tr.addr,
-            tr.write,
-            tr.wdata,
-            tr.rdata,
-            tr.wait_cycles,
-            tr.slverr),
-          UVM_MEDIUM)
-
-        //----------------------------------------------------
-        // Clear tracking state
-        //----------------------------------------------------
-        transfer_active = 0;
-        wait_count      = 0;
-        tr              = null;
-
-      end
-
-    end
-    else begin
-
-      //------------------------------------------------------
-      // Transfer interrupted before completion
-      //------------------------------------------------------
-      if (transfer_active) begin
-
-        `uvm_warning(get_type_name(),
-          "APB Access Phase Ended Before PREADY Handshake")
-
-        transfer_active = 0;
-        wait_count      = 0;
-        tr              = null;
-
-      end
-
-    end
-
-  endfunction : monitor_transfer
-
-endclass : apb_monitor
-
-`endif
+    endtask
+endclass

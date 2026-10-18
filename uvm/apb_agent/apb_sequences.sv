@@ -1,484 +1,284 @@
-`ifndef APB_SEQUENCES_SV
-`define APB_SEQUENCES_SV
-
-//============================================================
-// APB BASE SEQUENCE
-//============================================================
+// ============================================================
+// BASE APB SEQUENCE
+// All APB sequences inherit from this base class.
+// ============================================================
 class apb_base_sequence extends uvm_sequence #(apb_seq_item);
-
   `uvm_object_utils(apb_base_sequence)
 
   function new(string name = "apb_base_sequence");
     super.new(name);
   endfunction : new
-
-  virtual task body();
-
-    `uvm_info(get_type_name(),
-              "APB Base Sequence Body Executed",
-              UVM_LOW)
-
-  endtask : body
-
 endclass : apb_base_sequence
 
-
-//============================================================
-// 1. APB IMMEDIATE READY SEQUENCE
-//
-// PREADY = 1 without programmed wait cycles.
-//============================================================
-class apb_immediate_ready_sequence extends apb_base_sequence;
-
-  `uvm_object_utils(apb_immediate_ready_sequence)
-
-  function new(string name = "apb_immediate_ready_sequence");
-    super.new(name);
-  endfunction : new
+// ============================================================
+// SEQUENCE 1: STANDARD RESPONSE
+// Test: Test 1 (Smoke), Test 2 (Single Write), Test 3 (Single Read)
+// Why: APB Slave responds immediately (0 wait states) with no error.
+// ============================================================
+class apb_std_response_sequence extends apb_base_sequence;
+  `uvm_object_utils(apb_std_response_sequence)
+  
+  function new(string name = "apb_std_response_sequence"); 
+    super.new(name); 
+  endfunction
 
   virtual task body();
+    `uvm_info(get_type_name(), "APB: Standard Response (0 Wait States)", UVM_LOW)
+    
+    `uvm_do_with(req, { 
+      pready_delay == 0;           // No wait states (immediate PREADY)
+      pslverr      == 1'b0;        // No error
+      prdata       == 32'hCAFE_BABE; // Default read data
+    })
+  endtask
+endclass
 
-    `uvm_info(get_type_name(),
-              "APB Immediate Ready Sequence Started",
-              UVM_LOW)
+// ============================================================
+// SEQUENCE 2: WAIT STATES
+// Test: Test 4 (Write with wait states), Test 5 (Read with wait states)
+// Why: APB Slave is slow. It takes 5 clock cycles before asserting PREADY.
+//      DUT must wait without corrupting data.
+// ============================================================
+class apb_wait_state_sequence extends apb_base_sequence;
+  `uvm_object_utils(apb_wait_state_sequence)
+  
+  function new(string name = "apb_wait_state_sequence"); 
+    super.new(name); 
+  endfunction
+
+  virtual task body();
+    `uvm_info(get_type_name(), "APB: Injecting Wait States (Delay = 5)", UVM_LOW)
+    
+    `uvm_do_with(req, { 
+      pready_delay == 5;           // Wait 5 clock cycles before PREADY
+      pslverr      == 1'b0;        // No error
+      prdata       == 32'hCAFE_BABE;
+    })
+  endtask
+endclass
+
+// ============================================================
+// SEQUENCE 3: ERROR INJECTION
+// Test: Test 13 (PSLVERR stimulus)
+// Why: To verify if DUT propagates APB error to AXI side.
+//      Spec says DUT ignores PSLVERR (BRESP stays OKAY).
+// ============================================================
+class apb_error_sequence extends apb_base_sequence;
+  `uvm_object_utils(apb_error_sequence)
+  
+  function new(string name = "apb_error_sequence"); 
+    super.new(name); 
+  endfunction
+
+  virtual task body();
+    `uvm_info(get_type_name(), "APB: Injecting PSLVERR = 1", UVM_LOW)
+    
+    `uvm_do_with(req, { 
+      pready_delay == 0;           // No wait state
+      pslverr      == 1'b1;        // ERROR is injected here
+      prdata       == 32'hDEAD_DEAD;
+    })
+  endtask
+endclass
+
+// ============================================================
+// SEQUENCE 4: ALL ZERO DATA
+// Test: Random/Data pattern coverage
+// Why: To test if DUT handles zero data correctly (boundary case).
+// ============================================================
+class apb_all_zero_data_seq extends apb_base_sequence;
+  `uvm_object_utils(apb_all_zero_data_seq)
+  
+  function new(string name = "apb_all_zero_data_seq"); 
+    super.new(name); 
+  endfunction
+
+  virtual task body();
+    `uvm_info(get_type_name(), "APB: Returning All-Zero Data", UVM_LOW)
+    
+    `uvm_do_with(req, { 
+      pready_delay == 0; 
+      pslverr      == 1'b0; 
+      prdata       == 32'h0000_0000; // All zeros
+    })
+  endtask
+endclass
+
+// ============================================================
+// SEQUENCE 5: ALL ONE DATA
+// Test: Random/Data pattern coverage
+// Why: To test if DUT handles all-one data correctly (boundary case).
+// ============================================================
+class apb_all_one_data_seq extends apb_base_sequence;
+  `uvm_object_utils(apb_all_one_data_seq)
+  
+  function new(string name = "apb_all_one_data_seq"); 
+    super.new(name); 
+  endfunction
+
+  virtual task body();
+    `uvm_info(get_type_name(), "APB: Returning All-One Data", UVM_LOW)
+    
+    `uvm_do_with(req, { 
+      pready_delay == 0; 
+      pslverr      == 1'b0; 
+      prdata       == 32'hFFFF_FFFF; // All ones
+    })
+  endtask
+endclass
+
+// ============================================================
+// SEQUENCE 6: ALTERNATING DATA
+// Test: Random/Data pattern coverage
+// Why: To test if DUT handles alternating bits correctly.
+// ============================================================
+class apb_alt_data_seq extends apb_base_sequence;
+  `uvm_object_utils(apb_alt_data_seq)
+  
+  function new(string name = "apb_alt_data_seq"); 
+    super.new(name); 
+  endfunction
+
+  virtual task body();
+    `uvm_info(get_type_name(), "APB: Returning Alternating Data", UVM_LOW)
+    
+    `uvm_do_with(req, { 
+      pready_delay == 0; 
+      pslverr      == 1'b0; 
+      prdata       == 32'hAAAA_AAAA; // Alternating pattern
+    })
+  endtask
+endclass
+
+// ============================================================
+// SEQUENCE 7: DELAYED READY (Backpressure)
+// Test: Test 6 (RREADY delay), Test 7 (BREADY delay)
+// Why: To verify DUT behavior when APB slave takes a small delay.
+// ============================================================
+class apb_delayed_ready_seq extends apb_base_sequence;
+  `uvm_object_utils(apb_delayed_ready_seq)
+  
+  function new(string name = "apb_delayed_ready_seq"); 
+    super.new(name); 
+  endfunction
+
+  virtual task body();
+    `uvm_info(get_type_name(), "APB: Small Delay (2 cycles)", UVM_LOW)
+    
+    `uvm_do_with(req, { 
+      pready_delay == 2;    // Small delay
+      pslverr      == 1'b0; 
+      prdata       == 32'hCAFE_BABE;
+    })
+  endtask
+endclass
+
+// ============================================================
+// SEQUENCE 8: TIMEOUT (Stress)
+// Test: Timeout / Stress test
+// Why: PREADY never comes. This tests if DUT hangs or times out.
+// ============================================================
+class apb_timeout_seq extends apb_base_sequence;
+  `uvm_object_utils(apb_timeout_seq)
+  
+  function new(string name = "apb_timeout_seq"); 
+    super.new(name); 
+  endfunction
+
+  virtual task body();
+    `uvm_info(get_type_name(), "APB: Triggering Timeout (Never Ready)", UVM_LOW)
+    
+    `uvm_do_with(req, { 
+      pready_delay == 1000;   // Very long delay (simulates hang)
+      pslverr      == 1'b0; 
+      prdata       == 32'hCAFE_BABE;
+    })
+  endtask
+endclass
+
+// ============================================================
+// SEQUENCE 9: RANDOM RESPONSE
+// Test: Random regression tests
+// Why: Random wait states to stress test the DUT.
+// ============================================================
+class apb_random_response_seq extends apb_base_sequence;
+  `uvm_object_utils(apb_random_response_seq)
+  
+  function new(string name = "apb_random_response_seq"); 
+    super.new(name); 
+  endfunction
+
+  virtual task body();
+    `uvm_info(get_type_name(), "APB: Random Response", UVM_LOW)
+    
+    `uvm_do_with(req, { 
+      pready_delay inside {[0:5]};  // Random wait states
+      pslverr == 1'b0; 
+    })
+  endtask
+endclass
+
+// ============================================================
+// RANDOM APB RESPONSE (wait states 0..10, occasional PSLVERR)
+// ============================================================
+// class apb_random_response_sequence extends apb_base_sequence;
+//   `uvm_object_utils(apb_random_response_sequence)
+
+//   function new(string name = "apb_random_response_sequence");
+//     super.new(name);
+//   endfunction
+
+//   virtual task body();
+//     `uvm_do_with(req, {
+//       pready_delay dist {0 := 5, 1 := 2, [2:10] :/ 3};
+//       pslverr      dist {1'b0 := 9, 1'b1 := 1};
+//     })
+//   endtask
+// endclass
+class apb_random_response_sequence extends apb_base_sequence;
+  `uvm_object_utils(apb_random_response_sequence)
+
+  function new(string name = "apb_random_response_sequence");
+    super.new(name);
+  endfunction
+
+  virtual task body();
+    int unsigned t_wait;
+    bit          t_err;
+
+    case ($urandom_range(0, 9))
+      0,1,2,3,4: t_wait = 0;
+      5,6:       t_wait = 1;
+      default:   t_wait = $urandom_range(2, 10);
+    endcase
+    t_err = ($urandom_range(0, 9) == 0);   // ~10% PSLVERR
 
     `uvm_do_with(req, {
-      wait_cycles == 0;
-      slverr      == 0;
-      rdata       == 32'h1234_ABCD;
+      pready_delay == t_wait;
+      pslverr      == t_err;
     })
+  endtask
+endclass
+class apb_fifo_backpressure_sequence extends apb_base_sequence;
 
-    `uvm_info(get_type_name(),
-              "APB Immediate Ready Sequence Completed",
-              UVM_LOW)
+  `uvm_object_utils(apb_fifo_backpressure_sequence)
 
-  endtask : body
-
-endclass : apb_immediate_ready_sequence
-
-
-//============================================================
-// 2. APB WRITE WAIT STATES SEQUENCE
-//
-// Generates 5 APB wait cycles.
-//============================================================
-class apb_write_wait_sequence extends apb_base_sequence;
-
-  `uvm_object_utils(apb_write_wait_sequence)
-
-  function new(string name = "apb_write_wait_sequence");
+  function new(string name = "apb_fifo_backpressure_sequence");
     super.new(name);
-  endfunction : new
+  endfunction
 
   virtual task body();
 
     `uvm_info(get_type_name(),
-              "APB Write Wait Sequence Started",
-              UVM_LOW)
-
-    `uvm_do_with(req, {
-      wait_cycles == 5;
-      slverr      == 0;
-      rdata       == 32'h0000_0000;
-    })
-
-    `uvm_info(get_type_name(),
-              "APB Write Wait Sequence Completed",
-              UVM_LOW)
-
-  endtask : body
-
-endclass : apb_write_wait_sequence
-
-
-//============================================================
-// 3. APB READ WAIT STATES SEQUENCE
-//
-// Generates 5 APB wait cycles and returns read data.
-//============================================================
-class apb_read_wait_sequence extends apb_base_sequence;
-
-  `uvm_object_utils(apb_read_wait_sequence)
-
-  function new(string name = "apb_read_wait_sequence");
-    super.new(name);
-  endfunction : new
-
-  virtual task body();
-
-    `uvm_info(get_type_name(),
-              "APB Read Wait Sequence Started",
-              UVM_LOW)
-
-    `uvm_do_with(req, {
-      wait_cycles == 5;
-      slverr      == 0;
-      rdata       == 32'hDEAD_BEEF;
-    })
-
-    `uvm_info(get_type_name(),
-              "APB Read Wait Sequence Completed",
-              UVM_LOW)
-
-  endtask : body
-
-endclass : apb_read_wait_sequence
-
-
-//============================================================
-// 4. APB DELAYED RREADY SUPPORT SEQUENCE
-//
-// APB responds immediately.
-// AXI sequence controls RREADY delay.
-//============================================================
-class apb_delayed_rready_sequence extends apb_base_sequence;
-
-  `uvm_object_utils(apb_delayed_rready_sequence)
-
-  function new(string name = "apb_delayed_rready_sequence");
-    super.new(name);
-  endfunction : new
-
-  virtual task body();
-
-    `uvm_info(get_type_name(),
-              "APB Delayed RREADY Support Sequence Started",
-              UVM_LOW)
-
-    `uvm_do_with(req, {
-      wait_cycles == 0;
-      slverr      == 0;
-      rdata       == 32'hAABB_CCDD;
-    })
-
-    `uvm_info(get_type_name(),
-              "APB Delayed RREADY Support Sequence Completed",
-              UVM_LOW)
-
-  endtask : body
-
-endclass : apb_delayed_rready_sequence
-
-
-//============================================================
-// 5. APB DELAYED BREADY SUPPORT SEQUENCE
-//
-// APB responds immediately.
-// AXI sequence controls BREADY delay.
-//============================================================
-class apb_delayed_bready_sequence extends apb_base_sequence;
-
-  `uvm_object_utils(apb_delayed_bready_sequence)
-
-  function new(string name = "apb_delayed_bready_sequence");
-    super.new(name);
-  endfunction : new
-
-  virtual task body();
-
-    `uvm_info(get_type_name(),
-              "APB Delayed BREADY Support Sequence Started",
-              UVM_LOW)
-
-    `uvm_do_with(req, {
-      wait_cycles == 0;
-      slverr      == 0;
-      rdata       == 32'h0000_0000;
-    })
-
-    `uvm_info(get_type_name(),
-              "APB Delayed BREADY Support Sequence Completed",
-              UVM_LOW)
-
-  endtask : body
-
-endclass : apb_delayed_bready_sequence
-
-
-//============================================================
-// 6. APB SIMULTANEOUS READ/WRITE SUPPORT SEQUENCE
-//
-// Provides responses for two APB transfers.
-// The DUT determines the actual transfer order.
-//============================================================
-class apb_simultaneous_rw_sequence extends apb_base_sequence;
-
-  `uvm_object_utils(apb_simultaneous_rw_sequence)
-
-  function new(string name = "apb_simultaneous_rw_sequence");
-    super.new(name);
-  endfunction : new
-
-  virtual task body();
-
-    `uvm_info(get_type_name(),
-              "APB Simultaneous Read/Write Support Started",
-              UVM_LOW)
-
-    // First APB response
-    `uvm_do_with(req, {
-      wait_cycles == 0;
-      slverr      == 0;
-      rdata       == 32'h1111_2222;
-    })
-
-    // Second APB response
-    `uvm_do_with(req, {
-      wait_cycles == 0;
-      slverr      == 0;
-      rdata       == 32'h3333_4444;
-    })
-
-    `uvm_info(get_type_name(),
-              "APB Simultaneous Read/Write Support Completed",
-              UVM_LOW)
-
-  endtask : body
-
-endclass : apb_simultaneous_rw_sequence
-
-
-//============================================================
-// 7. APB BACK-TO-BACK READS SEQUENCE
-//
-// Provides five consecutive APB responses.
-//============================================================
-class apb_back_to_back_reads_sequence extends apb_base_sequence;
-
-  `uvm_object_utils(apb_back_to_back_reads_sequence)
-
-  function new(string name = "apb_back_to_back_reads_sequence");
-    super.new(name);
-  endfunction : new
-
-  virtual task body();
-
-    `uvm_info(get_type_name(),
-              "APB Back-to-Back Reads Sequence Started",
-              UVM_LOW)
-
-    for (int i = 0; i < 5; i++) begin
-
-      `uvm_do_with(req, {
-        wait_cycles == 0;
-        slverr      == 0;
-        rdata       == (32'h1000_0000 + i);
-      })
-
-    end
-
-    `uvm_info(get_type_name(),
-              "APB Back-to-Back Reads Sequence Completed",
-              UVM_LOW)
-
-  endtask : body
-
-endclass : apb_back_to_back_reads_sequence
-
-
-//============================================================
-// 8. APB BACK-TO-BACK WRITES SEQUENCE
-//
-// Provides five consecutive APB responses.
-//============================================================
-class apb_back_to_back_writes_sequence extends apb_base_sequence;
-
-  `uvm_object_utils(apb_back_to_back_writes_sequence)
-
-  function new(string name = "apb_back_to_back_writes_sequence");
-    super.new(name);
-  endfunction : new
-
-  virtual task body();
-
-    `uvm_info(get_type_name(),
-              "APB Back-to-Back Writes Sequence Started",
-              UVM_LOW)
-
-    for (int i = 0; i < 5; i++) begin
-
-      `uvm_do_with(req, {
-        wait_cycles == 0;
-        slverr      == 0;
-        rdata       == 32'h0000_0000;
-      })
-
-    end
-
-    `uvm_info(get_type_name(),
-              "APB Back-to-Back Writes Sequence Completed",
-              UVM_LOW)
-
-  endtask : body
-
-endclass : apb_back_to_back_writes_sequence
-
-
-//============================================================
-// 9. APB MIXED TRAFFIC SEQUENCE
-//
-// Provides ten APB responses.
-//============================================================
-class apb_mixed_traffic_sequence extends apb_base_sequence;
-
-  `uvm_object_utils(apb_mixed_traffic_sequence)
-
-  function new(string name = "apb_mixed_traffic_sequence");
-    super.new(name);
-  endfunction : new
-
-  virtual task body();
-
-    `uvm_info(get_type_name(),
-              "APB Mixed Traffic Sequence Started",
-              UVM_LOW)
-
-    for (int i = 0; i < 10; i++) begin
-
-      `uvm_do_with(req, {
-        wait_cycles == 0;
-        slverr      == 0;
-        rdata       == (32'hABCD_0000 + i);
-      })
-
-    end
-
-    `uvm_info(get_type_name(),
-              "APB Mixed Traffic Sequence Completed",
-              UVM_LOW)
-
-  endtask : body
-
-endclass : apb_mixed_traffic_sequence
-
-
-//============================================================
-// 10. APB DIFFERENT ID/USER SUPPORT SEQUENCE
-//
-// AXI IDs and USER values are handled by AXI agent.
-// APB responds to ten transfers.
-//============================================================
-class apb_id_user_sequence extends apb_base_sequence;
-
-  `uvm_object_utils(apb_id_user_sequence)
-
-  function new(string name = "apb_id_user_sequence");
-    super.new(name);
-  endfunction : new
-
-  virtual task body();
-
-    `uvm_info(get_type_name(),
-              "APB ID/USER Support Sequence Started",
-              UVM_LOW)
-
-    for (int i = 0; i < 10; i++) begin
-
-      `uvm_do_with(req, {
-        wait_cycles == 0;
-        slverr      == 0;
-        rdata       == (32'hFACE_0000 + i);
-      })
-
-    end
-
-    `uvm_info(get_type_name(),
-              "APB ID/USER Support Sequence Completed",
-              UVM_LOW)
-
-  endtask : body
-
-endclass : apb_id_user_sequence
-
-
-//============================================================
-// 11. APB PSLVERR SEQUENCE
-//
-// Generates APB error responses for two transfers.
-//============================================================
-class apb_pslverr_sequence extends apb_base_sequence;
-
-  `uvm_object_utils(apb_pslverr_sequence)
-
-  function new(string name = "apb_pslverr_sequence");
-    super.new(name);
-  endfunction : new
-
-  virtual task body();
-
-    `uvm_info(get_type_name(),
-              "APB PSLVERR Sequence Started",
-              UVM_LOW)
-
-    // Error response for AXI write
-    `uvm_do_with(req, {
-      wait_cycles == 0;
-      slverr      == 1;
-      rdata       == 32'h0000_0000;
-    })
-
-    // Error response for AXI read
-    `uvm_do_with(req, {
-      wait_cycles == 0;
-      slverr      == 1;
-      rdata       == 32'hBAD0_BAD0;
-    })
-
-    `uvm_info(get_type_name(),
-              "APB PSLVERR Sequence Completed",
-              UVM_LOW)
-
-  endtask : body
-
-endclass : apb_pslverr_sequence
-
-
-//============================================================
-// 12. APB CONFIGURABLE RESPONSE SEQUENCE
-//
-// Reusable sequence for custom APB responses.
-//============================================================
-class apb_configurable_sequence extends apb_base_sequence;
-
-  `uvm_object_utils(apb_configurable_sequence)
-
-  //----------------------------------------------------------
-  // Configuration
-  //----------------------------------------------------------
-  int unsigned num_transfers = 1;
-  int unsigned configured_wait_cycles = 0;
-
-  bit [31:0] configured_rdata = 32'h0000_0000;
-  bit        configured_slverr = 1'b0;
-
-  function new(string name = "apb_configurable_sequence");
-    super.new(name);
-  endfunction : new
-
-  virtual task body();
-
-    `uvm_info(get_type_name(),
-      $sformatf(
-        "APB Configurable Sequence Started: TRANSFERS=%0d WAIT=%0d",
-        num_transfers, configured_wait_cycles),
+      "APB BACKPRESSURE: PREADY delayed 8 cycles",
       UVM_LOW)
 
-    for (int i = 0; i < num_transfers; i++) begin
-
-      `uvm_do_with(req, {
-        wait_cycles == local::configured_wait_cycles;
-        slverr      == local::configured_slverr;
-        rdata       == local::configured_rdata;
-      })
-
-    end
-
-    `uvm_info(get_type_name(),
-              "APB Configurable Sequence Completed",
-              UVM_LOW)
+    `uvm_do_with(req, {
+      pready_delay == 8;
+      pslverr      == 0;
+      prdata       == 32'hCAFE_BABE;
+    })
 
   endtask : body
 
-endclass : apb_configurable_sequence
-
-`endif
+endclass : apb_fifo_backpressure_sequence

@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Author" content="<username>"> <meta name="GENERATOR" content="urg/version [en] (platform name) [urg]">
+<title>Unified Coverage Report :: Module :: axi2apb</title>
+<link type="text/css" rel="stylesheet" href="css/.urg.css">
+<link type="text/css" rel="stylesheet" href="css/.layout.css">
+<link type="text/css" rel="stylesheet" href="css/.breadcrumb.css">
+<script type="text/javascript" src="js/.jquery.js"></script>
+<script type="text/javascript" src="js/.jquery-ui.js"></script>
+<script type="text/javascript" src="js/.sortable.js"></script>
+<script type="text/javascript" src="js/.layout.js"></script>
+<script type="text/javascript" src="js/.breadcrumb.js"></script>
+<script type="text/javascript">
+var layout, westLayout, centerLayout;
+$(document).ready(function () {
+  if ($("#north-bread-crumb")) {
+    $("#north-bread-crumb").jBreadCrumb({easing:'swing'})
+  }
+  layout = $("body").layout({ 
+    resizable: true,
+    spacing_open: 4,
+    spacing_closed: 4,
+    north: {
+      size: 76
+    },
+    south: {
+      size: 45,
+      initClosed: true
+    },
+    west: {
+      size: 500,
+      resizable: true,
+      initClosed: false
+    }
+  });
+  centerLayout = $('div.ui-layout-center').layout({
+    north__paneSelector: ".ui-layout-center-inner-north",
+    center__paneSelector: ".ui-layout-center-inner-center", 
+    north__size: 50,
+    spacing_open: 4,
+    spacing_closed: 4
+  });
+});
+</script>
+</head>
+<body onLoad="initPage();"><div class="ui-layout-north">
+<div class="logo"></div>
+<center class="pagetitle">Module Definition</center>
+<div align="center"><a href="dashboard.html" ><b>dashboard</b></a> | <a href="hierarchy.html" ><b>hierarchy</b></a> | <a href="modlist.html" ><b>modlist</b></a> | <a href="groups.html" ><b>groups</b></a> | <a href="tests.html" ><b>tests</b></a> | asserts</div>
+
+</div>
+<div class="ui-layout-west">
+<div name='tag_axi2apb'>
+<div class=modhdr>
+<br clear=all>
+<span class=titlename>Module : <a href="#"  onclick="showContent('tag_axi2apb')">axi2apb<img src="ex.gif" class="icon"></a></span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td></tr><tr>
+<td class="s9 cl rt"> 99.08</td>
+<td class="s10 cl rt"><a href="mod6.html#Line" >100.00</a></td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"><a href="mod6.html#Toggle" > 98.17</a></td>
+</tr></table><br clear=all>
+<span class=repname>Source File(s) : </span>
+<br clear=all>
+<a href="file:///root/axi2apb/sim/../rtl/axi2apb.sv" >/root/axi2apb/sim/../rtl/axi2apb.sv</a><br clear=all>
+<br clear=all>
+<span class=repname>Module self-instances :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td></tr><tr>
+<td class="wht cl wordwrap"><a href="mod6.html#inst_tag_10"  onclick="showContent('inst_tag_10')">tb_top.dut<img src="fx.gif" class="icon"></a></td>
+<td class="wht cl rt"></td>
+<td class="wht cl rt"></td>
+<td class="wht cl rt"></td>
+<td class="wht cl rt"></td>
+</tr></table></div>
+</div>
+<br clear=all>
+<div name='inst_tag_10'>
+<hr>
+<a name="inst_tag_10"></a>
+<div class=modhdr>
+<br clear=all>
+<span class=titlename>Module Instance : <a href="hierarchy.html#tag_urg_inst_10" >tb_top.dut<img src="fx.gif" class="icon"></a></span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Instance :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td></tr><tr>
+<td class="wht cl rt"></td>
+<td class="wht cl rt"></td>
+<td class="wht cl rt"></td>
+<td class="wht cl rt"></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Instance's subtree :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td></tr><tr>
+<td class="s9 cl rt"> 97.43</td>
+<td class="s10 cl rt">100.00</td>
+<td class="s10 cl rt">100.00</td>
+<td class="s9 cl rt"> 92.29</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Parent : </span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td class="alfsrt">NAME</td></tr><tr>
+<td class="s10 cl rt">100.00</td>
+<td class="s10 cl rt">100.00</td>
+<td class="wht cl rt"></td>
+<td class="s10 cl rt">100.00</td>
+<td><a href="mod5.html#inst_tag_9" >tb_top</a></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Subtrees :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td></tr><tr>
+<td class="wht cl wordwrap"><a href="mod13.html#inst_tag_21" id="tag_urg_inst_21">slave_ar_buffer_i<img src="ex.gif" class="icon"></a></td>
+<td class="s9 cl rt"> 96.17</td>
+<td class="s10 cl rt">100.00</td>
+<td class="s10 cl rt">100.00</td>
+<td class="s8 cl rt"> 88.52</td>
+</tr><tr>
+<td class="wht cl wordwrap"><a href="mod11.html#inst_tag_19" id="tag_urg_inst_19">slave_aw_buffer_i<img src="ex.gif" class="icon"></a></td>
+<td class="s9 cl rt"> 96.41</td>
+<td class="s10 cl rt">100.00</td>
+<td class="s10 cl rt">100.00</td>
+<td class="s8 cl rt"> 89.23</td>
+</tr><tr>
+<td class="wht cl wordwrap"><a href="mod10.html#inst_tag_18" id="tag_urg_inst_18">slave_b_buffer<img src="ex.gif" class="icon"></a></td>
+<td class="s9 cl rt"> 97.30</td>
+<td class="s10 cl rt">100.00</td>
+<td class="s10 cl rt">100.00</td>
+<td class="s9 cl rt"> 91.91</td>
+</tr><tr>
+<td class="wht cl wordwrap"><a href="mod14.html#inst_tag_22" id="tag_urg_inst_22">slave_r_buffer_i<img src="ex.gif" class="icon"></a></td>
+<td class="s9 cl rt"> 98.83</td>
+<td class="s10 cl rt">100.00</td>
+<td class="s10 cl rt">100.00</td>
+<td class="s9 cl rt"> 96.50</td>
+</tr><tr>
+<td class="wht cl wordwrap"><a href="mod12.html#inst_tag_20" id="tag_urg_inst_20">slave_w_buffer_i<img src="ex.gif" class="icon"></a></td>
+<td class="s9 cl rt"> 99.79</td>
+<td class="s10 cl rt">100.00</td>
+<td class="s10 cl rt">100.00</td>
+<td class="s9 cl rt"> 99.37</td>
+</tr></table><br clear=all>
+</div>
+</div>
+</div>
+<div class="ui-layout-center">
+<div class="ui-layout-center-inner-center">
+<div name='tag_axi2apb'>
+<a name="Line"></a>
+Line Coverage for Module : <a href="mod6.html" >axi2apb<img src="ex.gif" class="icon"></a><br clear=all>
+<table class="noborder">
+<col width="122">
+<col span="4" width="82">
+<tr><th></th><th>Line No.</th><th>Total</th><th>Covered</th><th>Percent</th></tr>
+<tr class="s10"><td class="lf">TOTAL</td><td></td><td>64</td><td>64</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">ALWAYS</td><td>333</td><td>58</td><td>58</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">ALWAYS</td><td>438</td><td>6</td><td>6</td><td>100.00</td></tr>
+</table>
+<pre class="code"><br clear=all>
+332                     
+333        1/1                read_req     = 1'b0;
+334        1/1                write_req    = 1'b0;
+335        1/1                address      = '0;
+336                     
+337        1/1                sample_RDATA = 1'b0;
+338                     
+339        1/1                ARREADY      = 1'b0;
+340        1/1                AWREADY      = 1'b0;
+341        1/1                WREADY       = 1'b0;
+342                     
+343        1/1                BVALID       = 1'b0;
+344        1/1                BRESP        = `OKAY;
+345        1/1                BID          = AWID;
+346        1/1                BUSER        = AWUSER;
+347                     
+348        1/1                RVALID       = 1'b0;
+349        1/1                RLAST        = 1'b0;
+350        1/1                RID          = ARID;
+351        1/1                RUSER        = ARUSER;
+352        1/1                RRESP        = `OKAY;
+353        1/1                RDATA        = RDATA_Q;
+354                     
+355        1/1                case(CS)
+356                     
+357                             WAIT_R_PREADY: begin
+358        1/1                      read_req     = 1'b1;
+359        1/1                      address      = ARADDR[APB_ADDR_WIDTH  - 1 : 0];
+360        1/1                      sample_RDATA = PREADY;
+361                     
+362        1/1                      if (PREADY == 1'b1) begin // APB is READY --&gt; RDATA is AVAILABLE
+363        1/1                         NS = DONE_SINGLE_RD;
+364                                 end
+                        MISSING_ELSE
+365                             end
+366                     
+367                             WAIT_W_PREADY: begin
+368        1/1                      write_req   = 1'b1;
+369        1/1                      address     = AWADDR[APB_ADDR_WIDTH - 1:0];
+370                                 // There is a Pending WRITE!!
+371        1/1                      if (PREADY == 1'b1) begin // APB is READY --&gt; WDATA is LAtched
+372        1/1                          NS = SEND_B_RESP;
+373                                 end
+                        MISSING_ELSE
+374                             end
+375                     
+376                             IDLE: begin
+377        1/1                      if (ARVALID == 1'b1) begin
+378        1/1                          read_req     = 1'b1;
+379        2/2                          address      = ARADDR[APB_ADDR_WIDTH - 1:0];;
+380        1/1                          sample_RDATA = PREADY;
+381                     
+382        1/1                          if(PREADY == 1'b1) begin // APB is READY --&gt; RDATA is AVAILABLE
+383        1/1                              NS   = DONE_SINGLE_RD;
+384                                     end else begin // APB not ready
+385        1/1                              NS = WAIT_R_PREADY;
+386                                     end
+387                                 end else begin
+388        1/1                          if (AWVALID) begin
+389        1/1                              address =  AWADDR[APB_ADDR_WIDTH - 1:0];
+390        1/1                              if (WVALID) begin
+391        1/1                                  write_req = 1'b1;
+392                     
+393                                             // There is a Pending WRITE!!
+394        1/1                                  if (PREADY == 1'b1) begin// APB is READY --&gt; WDATA is LAtched
+395        1/1                                      NS = SEND_B_RESP;
+396                                             end else begin // APB not READY
+397        1/1                                     NS = WAIT_W_PREADY;
+398                                             end
+399                                         end else begin // GOT ADDRESS WRITE, not DATA
+400        1/1                                  write_req       = 1'b0;
+401        1/1                                  address         = '0;
+402        1/1                                  NS              = IDLE;
+403                                         end
+404                                     end
+                        MISSING_ELSE
+405                                 end
+406                             end
+407                     
+408                             SEND_B_RESP: begin
+409                     
+410        1/1                      BVALID   = 1'b1;
+411        1/1                      address  = '0;
+412                     
+413        1/1                      if (BREADY) begin
+414        1/1                          NS      = IDLE;
+415        1/1                          AWREADY = 1'b1;
+416        1/1                          WREADY  = 1'b1;
+417                                 end
+                   <font color = "red">==>  MISSING_ELSE</font>
+418                             end
+419                     
+420                             DONE_SINGLE_RD: begin
+421                     
+422        1/1                      RVALID    = 1'b1;
+423        1/1                      RLAST     = 1;
+424        1/1                      address   = '0;
+425                     
+426        1/1                      if (RREADY) begin // ready to send back the rdata
+427        1/1                          NS = IDLE;
+428        1/1                          ARREADY = 1'b1;
+429                                 end
+                   <font color = "red">==>  MISSING_ELSE</font>
+430                             end
+431                     
+432        1/1                  default: NS = IDLE;
+433                     
+434                           endcase
+435                         end
+436                     
+437                         always_ff @(posedge ACLK, negedge ARESETn) begin
+438        1/1                  if (ARESETn == 1'b0) begin
+439        1/1                      CS      &lt;= IDLE;
+440        1/1                      RDATA_Q &lt;= '0;
+441                             end else begin
+442        1/1                      CS      &lt;= NS;
+443                     
+444        1/1                      if (sample_RDATA)
+445        1/1                          RDATA_Q &lt;= PRDATA;
+                        MISSING_ELSE
+</pre>
+<hr>
+<a name="Toggle"></a>
+Toggle Coverage for Module : <a href="mod6.html" >axi2apb<img src="ex.gif" class="icon"></a><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80>Total</th><th nowrap width=80>Covered</th><th nowrap width=80>Percent</th></tr><tr class="s9">
+<td>Totals</td>
+<td class="rt">89</td>
+<td class="rt">81</td>
+<td class="rt">91.01 </td>
+</tr><tr class="s9">
+<td>Total Bits</td>
+<td class="rt">1528</td>
+<td class="rt">1500</td>
+<td class="rt">98.17 </td>
+</tr><tr class="s9">
+<td nowrap>Total Bits 0->1</td>
+<td class="rt">764</td>
+<td class="rt">750</td>
+<td class="rt">98.17 </td>
+</tr><tr class="s9">
+<td nowrap>Total Bits 1->0</td>
+<td class="rt">764</td>
+<td class="rt">750</td>
+<td class="rt">98.17 </td>
+</tr></table><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80></th><th nowrap width=80></th><th nowrap width=80></th></tr><tr class="s9">
+<td>Ports</td>
+<td class="rt">45</td>
+<td class="rt">41</td>
+<td class="rt">91.11 </td>
+</tr><tr class="s9">
+<td>Port Bits</td>
+<td class="rt">792</td>
+<td class="rt">778</td>
+<td class="rt">98.23 </td>
+</tr><tr class="s9">
+<td nowrap>Port Bits 0->1</td>
+<td class="rt">396</td>
+<td class="rt">389</td>
+<td class="rt">98.23 </td>
+</tr><tr class="s9">
+<td nowrap>Port Bits 1->0</td>
+<td class="rt">396</td>
+<td class="rt">389</td>
+<td class="rt">98.23 </td>
+</tr></table><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80></th><th nowrap width=80></th><th nowrap width=80></th></tr><tr class="s9">
+<td>Signals</td>
+<td class="rt">44</td>
+<td class="rt">40</td>
+<td class="rt">90.91 </td>
+</tr><tr class="s9">
+<td>Signal Bits</td>
+<td class="rt">736</td>
+<td class="rt">722</td>
+<td class="rt">98.10 </td>
+</tr><tr class="s9">
+<td nowrap>Signal Bits 0->1</td>
+<td class="rt">368</td>
+<td class="rt">361</td>
+<td class="rt">98.10 </td>
+</tr><tr class="s9">
+<td nowrap>Signal Bits 1->0</td>
+<td class="rt">368</td>
+<td class="rt">361</td>
+<td class="rt">98.10 </td>
+</tr></table><br clear=all>
+<table align=left class="sortable noborder">
+<caption><b>Port Details</b></caption>
+<tr class="sortablehead">
+<td class="alfsrt">Name</td><td class="alfsrt">Toggle</td><td class="alfsrt">Toggle 1->0</td><td class="alfsrt">Toggle 0->1</td><td class="alfsrt">Direction</td></tr><tr>
+<td>ACLK</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARESETn</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>test_en_i</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWID_i[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWADDR_i[1:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWADDR_i[31:2]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWLEN_i[7:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWSIZE_i[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWSIZE_i[2]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWBURST_i[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWLOCK_i</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWCACHE_i[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWPROT_i[2:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWREGION_i[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWUSER_i[9:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWQOS_i[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWVALID_i</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWREADY_o</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>WDATA_i[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>WSTRB_i[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>WLAST_i</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>WUSER_i[9:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>WVALID_i</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>WREADY_o</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>BID_o[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>BRESP_o[1:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>BVALID_o</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>BUSER_o[9:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>BREADY_i</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARID_i[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARADDR_i[1:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARADDR_i[31:2]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARLEN_i[7:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARSIZE_i[2:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARBURST_i[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARLOCK_i</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARCACHE_i[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARPROT_i[2:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARREGION_i[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARUSER_i[9:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARQOS_i[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARVALID_i</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARREADY_o</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>RID_o[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>RDATA_o[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>RRESP_o[1:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>RLAST_o</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>RUSER_o[9:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>RVALID_o</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>RREADY_i</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>PENABLE</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>PWRITE</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>PADDR[1:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>PADDR[31:2]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>PSEL</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>PWDATA[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>PRDATA[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>PREADY</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>PSLVERR</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr></table><br clear=all>
+<table align=left class="sortable noborder">
+<caption><b>Signal Details</b></caption>
+<tr class="sortablehead">
+<td class="alfsrt">Name</td><td class="alfsrt">Toggle</td><td class="alfsrt">Toggle 1->0</td><td class="alfsrt">Toggle 0->1</td></tr><tr>
+<td>AWID[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>AWADDR[1:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>AWADDR[31:2]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>AWLEN[7:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>AWSIZE[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>AWSIZE[2]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>AWBURST[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>AWLOCK</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>AWCACHE[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>AWPROT[2:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>AWREGION[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>AWUSER[9:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>AWQOS[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>AWVALID</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>AWREADY</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>WDATA[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>WSTRB[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>WLAST</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>WUSER[9:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>WVALID</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>WREADY</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>BID[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>BRESP[1:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>BVALID</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>BUSER[9:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>BREADY</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>ARID[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>ARADDR[1:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>ARADDR[31:2]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>ARLEN[7:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>ARSIZE[2:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>ARBURST[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>ARLOCK</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>ARCACHE[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>ARPROT[2:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>ARREGION[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>ARUSER[9:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>ARQOS[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>ARVALID</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>ARREADY</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>RID[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>RDATA[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>RRESP[1:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>RLAST</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>RUSER[9:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>RVALID</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>RREADY</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>CS[2:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>NS[2:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>address[1:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>address[31:2]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>sample_RDATA</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>RDATA_Q[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>read_req</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>write_req</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr></table><br clear=all>
+</div>
+<div name='inst_tag_10'>
+<a name="inst_tag_10_Line"></a>
+<b>Line Coverage for Instance : <a href="mod6.html#inst_tag_10" >tb_top.dut<img src="fx.gif" class="icon"></a></b><br clear=all>
+<table class="noborder">
+<col width="122">
+<col span="4" width="82">
+<tr><th></th><th>Line No.</th><th>Total</th><th>Covered</th><th>Percent</th></tr>
+<tr class="wht"><td class="lf">TOTAL</td><td></td><td>0</td><td>0</td><td></td></tr>
+<tr class="wht"><td class="lf">ALWAYS</td><td>333</td><td>0</td><td>0</td><td></td></tr>
+<tr class="wht"><td class="lf">ALWAYS</td><td>438</td><td>0</td><td>0</td><td></td></tr>
+</table>
+<pre class="code"><br clear=all>
+332                     
+333        <font color = "grey">excluded     </font>      read_req     = 1'b0;
+334        <font color = "grey">excluded     </font>      write_req    = 1'b0;
+335        <font color = "grey">excluded     </font>      address      = '0;
+336                     
+337        <font color = "grey">excluded     </font>      sample_RDATA = 1'b0;
+338                     
+339        <font color = "grey">excluded     </font>      ARREADY      = 1'b0;
+340        <font color = "grey">excluded     </font>      AWREADY      = 1'b0;
+341        <font color = "grey">excluded     </font>      WREADY       = 1'b0;
+342                     
+343        <font color = "grey">excluded     </font>      BVALID       = 1'b0;
+344        <font color = "grey">excluded     </font>      BRESP        = `OKAY;
+345        <font color = "grey">excluded     </font>      BID          = AWID;
+346        <font color = "grey">excluded     </font>      BUSER        = AWUSER;
+347                     
+348        <font color = "grey">excluded     </font>      RVALID       = 1'b0;
+349        <font color = "grey">excluded     </font>      RLAST        = 1'b0;
+350        <font color = "grey">excluded     </font>      RID          = ARID;
+351        <font color = "grey">excluded     </font>      RUSER        = ARUSER;
+352        <font color = "grey">excluded     </font>      RRESP        = `OKAY;
+353        <font color = "grey">excluded     </font>      RDATA        = RDATA_Q;
+354                     
+355        <font color = "grey">excluded     </font>      case(CS)
+356                     
+357                             WAIT_R_PREADY: begin
+358        <font color = "grey">excluded     </font>            read_req     = 1'b1;
+359        <font color = "grey">excluded     </font>            address      = ARADDR[APB_ADDR_WIDTH  - 1 : 0];
+360        <font color = "grey">excluded     </font>            sample_RDATA = PREADY;
+361                     
+362        <font color = "grey">excluded     </font>            if (PREADY == 1'b1) begin // APB is READY --&gt; RDATA is AVAILABLE
+363        <font color = "grey">excluded     </font>               NS = DONE_SINGLE_RD;
+364                                 end
+                   <font color = "red">==>  MISSING_ELSE</font>
+365                             end
+366                     
+367                             WAIT_W_PREADY: begin
+368        <font color = "grey">excluded     </font>            write_req   = 1'b1;
+369        <font color = "grey">excluded     </font>            address     = AWADDR[APB_ADDR_WIDTH - 1:0];
+370                                 // There is a Pending WRITE!!
+371        <font color = "grey">excluded     </font>            if (PREADY == 1'b1) begin // APB is READY --&gt; WDATA is LAtched
+372        <font color = "grey">excluded     </font>                NS = SEND_B_RESP;
+373                                 end
+                   <font color = "red">==>  MISSING_ELSE</font>
+374                             end
+375                     
+376                             IDLE: begin
+377        <font color = "grey">excluded     </font>            if (ARVALID == 1'b1) begin
+378        <font color = "grey">excluded     </font>                read_req     = 1'b1;
+379        <font color = "grey">excluded     </font>                address      = ARADDR[APB_ADDR_WIDTH - 1:0];;
+380        <font color = "grey">excluded     </font>                sample_RDATA = PREADY;
+381                     
+382        <font color = "grey">excluded     </font>                if(PREADY == 1'b1) begin // APB is READY --&gt; RDATA is AVAILABLE
+383        <font color = "grey">excluded     </font>                    NS   = DONE_SINGLE_RD;
+384                                     end else begin // APB not ready
+385        <font color = "grey">excluded     </font>                    NS = WAIT_R_PREADY;
+386                                     end
+387                                 end else begin
+388        <font color = "grey">excluded     </font>                if (AWVALID) begin
+389        <font color = "grey">excluded     </font>                    address =  AWADDR[APB_ADDR_WIDTH - 1:0];
+390        <font color = "grey">excluded     </font>                    if (WVALID) begin
+391        <font color = "grey">excluded     </font>                        write_req = 1'b1;
+392                     
+393                                             // There is a Pending WRITE!!
+394        <font color = "grey">excluded     </font>                        if (PREADY == 1'b1) begin// APB is READY --&gt; WDATA is LAtched
+395        <font color = "grey">excluded     </font>                            NS = SEND_B_RESP;
+396                                             end else begin // APB not READY
+397        <font color = "grey">excluded     </font>                           NS = WAIT_W_PREADY;
+398                                             end
+399                                         end else begin // GOT ADDRESS WRITE, not DATA
+400        <font color = "grey">excluded     </font>                        write_req       = 1'b0;
+401        <font color = "grey">excluded     </font>                        address         = '0;
+402        <font color = "grey">excluded     </font>                        NS              = IDLE;
+403                                         end
+404                                     end
+                   <font color = "red">==>  MISSING_ELSE</font>
+405                                 end
+406                             end
+407                     
+408                             SEND_B_RESP: begin
+409                     
+410        <font color = "grey">excluded     </font>            BVALID   = 1'b1;
+411        <font color = "grey">excluded     </font>            address  = '0;
+412                     
+413        <font color = "grey">excluded     </font>            if (BREADY) begin
+414        <font color = "grey">excluded     </font>                NS      = IDLE;
+415        <font color = "grey">excluded     </font>                AWREADY = 1'b1;
+416        <font color = "grey">excluded     </font>                WREADY  = 1'b1;
+417                                 end
+                   <font color = "red">==>  MISSING_ELSE</font>
+418                             end
+419                     
+420                             DONE_SINGLE_RD: begin
+421                     
+422        <font color = "grey">excluded     </font>            RVALID    = 1'b1;
+423        <font color = "grey">excluded     </font>            RLAST     = 1;
+424        <font color = "grey">excluded     </font>            address   = '0;
+425                     
+426        <font color = "grey">excluded     </font>            if (RREADY) begin // ready to send back the rdata
+427        <font color = "grey">excluded     </font>                NS = IDLE;
+428        <font color = "grey">excluded     </font>                ARREADY = 1'b1;
+429                                 end
+                   <font color = "red">==>  MISSING_ELSE</font>
+430                             end
+431                     
+432        <font color = "grey">excluded     </font>        default: NS = IDLE;
+433                     
+434                           endcase
+435                         end
+436                     
+437                         always_ff @(posedge ACLK, negedge ARESETn) begin
+438        <font color = "grey">excluded     </font>        if (ARESETn == 1'b0) begin
+439        <font color = "grey">excluded     </font>            CS      &lt;= IDLE;
+440        <font color = "grey">excluded     </font>            RDATA_Q &lt;= '0;
+441                             end else begin
+442        <font color = "grey">excluded     </font>            CS      &lt;= NS;
+443                     
+444        <font color = "grey">excluded     </font>            if (sample_RDATA)
+445        <font color = "grey">excluded     </font>                RDATA_Q &lt;= PRDATA;
+                   <font color = "red">==>  MISSING_ELSE</font>
+</pre>
+<hr>
+<a name="inst_tag_10_Toggle"></a>
+<b>Toggle Coverage for Instance : <a href="mod6.html#inst_tag_10" >tb_top.dut<img src="fx.gif" class="icon"></a></b><br clear=all>
+<table align=left class="sortable noborder">
+<caption><b>Port Details</b></caption>
+<tr class="sortablehead">
+<td class="alfsrt">Name</td><td class="alfsrt">Toggle</td><td class="alfsrt">Toggle 1->0</td><td class="alfsrt">Toggle 0->1</td><td class="alfsrt">Direction</td></tr><tr>
+<td>ACLK</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARESETn</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>test_en_i</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWID_i[15:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWADDR_i[31:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWLEN_i[7:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWSIZE_i[2:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWBURST_i[1:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWLOCK_i</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWCACHE_i[3:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWPROT_i[2:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWREGION_i[3:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWUSER_i[9:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWQOS_i[3:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWVALID_i</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>AWREADY_o</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>WDATA_i[31:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>WSTRB_i[3:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>WLAST_i</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>WUSER_i[9:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>WVALID_i</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>WREADY_o</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>BID_o[15:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>BRESP_o[1:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>BVALID_o</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>BUSER_o[9:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>BREADY_i</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARID_i[15:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARADDR_i[31:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARLEN_i[7:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARSIZE_i[2:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARBURST_i[1:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARLOCK_i</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARCACHE_i[3:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARPROT_i[2:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARREGION_i[3:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARUSER_i[9:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARQOS_i[3:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARVALID_i</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ARREADY_o</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>RID_o[15:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>RDATA_o[31:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>RRESP_o[1:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>RLAST_o</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>RUSER_o[9:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>RVALID_o</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>RREADY_i</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>PENABLE</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>PWRITE</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>PADDR[31:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>PSEL</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>PWDATA[31:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>PRDATA[31:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>PREADY</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr><tr>
+<td>PSLVERR</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td>INPUT</td>
+</tr></table><br clear=all>
+<table align=left class="sortable noborder">
+<caption><b>Signal Details</b></caption>
+<tr class="sortablehead">
+<td class="alfsrt">Name</td><td class="alfsrt">Toggle</td><td class="alfsrt">Toggle 1->0</td><td class="alfsrt">Toggle 0->1</td></tr><tr>
+<td>AWID[15:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>AWADDR[31:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>AWLEN[7:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>AWSIZE[2:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>AWBURST[1:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>AWLOCK</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>AWCACHE[3:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>AWPROT[2:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>AWREGION[3:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>AWUSER[9:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>AWQOS[3:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>AWVALID</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>AWREADY</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>WDATA[31:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>WSTRB[3:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>WLAST</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>WUSER[9:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>WVALID</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>WREADY</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>BID[15:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>BRESP[1:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>BVALID</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>BUSER[9:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>BREADY</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>ARID[15:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>ARADDR[31:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>ARLEN[7:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>ARSIZE[2:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>ARBURST[1:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>ARLOCK</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>ARCACHE[3:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>ARPROT[2:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>ARREGION[3:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>ARUSER[9:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>ARQOS[3:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>ARVALID</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>ARREADY</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>RID[15:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>RDATA[31:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>RRESP[1:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>RLAST</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>RUSER[9:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>RVALID</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>RREADY</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>CS[2:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>NS[2:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>address[31:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>sample_RDATA</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>RDATA_Q[31:0]</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>read_req</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr><tr>
+<td>write_req</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+<td class="wht cl">Excluded</td>
+</tr></table><br clear=all>
+</div>
+</div>
+<div class="ui-layout-center-inner-north">
+<div id="center-bread-crumb" class="breadCrumb module urg-margin-bottom">
+  <ul name="inst_tag_10">
+    <li>
+      <a href="#inst_tag_10_Line">Line</a>    </li>
+    <li>
+      <a href="#inst_tag_10_Toggle">Toggle</a>    </li>
+  </ul>
+  <ul name="tag_axi2apb">
+    <li>
+      <a href="#Line">Line</a>    </li>
+    <li>
+      <a href="#Toggle">Toggle</a>    </li>
+  </ul>
+</div>
+</div>
+</div>
+<div class="ui-layout-south">
+<table align=center><tr><td class="s0 cl">0%</td>
+<td class="s1 cl">10%</td>
+<td class="s2 cl">20%</td>
+<td class="s3 cl">30%</td>
+<td class="s4 cl">40%</td>
+<td class="s5 cl">50%</td>
+<td class="s6 cl">60%</td>
+<td class="s7 cl">70%</td>
+<td class="s8 cl">80%</td>
+<td class="s9 cl">90%</td>
+<td class="s10 cl">100%</td></tr></table></div>
+</body>
+</html>

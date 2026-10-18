@@ -1,54 +1,78 @@
+interface axi_if #(
+    parameter ADDR_WIDTH = 32,
+    parameter DATA_WIDTH = 32,
+    parameter ID_WIDTH   = 16,
+    parameter USER_WIDTH = 10
+) (input logic ACLK, input logic ARESETn);
 
-interface axi_if(input logic ACLK,input logic ARESETn);
+    logic [ID_WIDTH-1:0]      awid;
+    logic [ADDR_WIDTH-1:0]    awaddr;
+    logic [7:0]               awlen;
+    logic [2:0]               awsize;
+    logic [1:0]               awburst;
+    logic                     awlock;
+    logic [3:0]               awcache;
+    logic [2:0]               awprot;
+    logic [3:0]               awregion;
+    logic [USER_WIDTH-1:0]    awuser;
+    logic [3:0]               awqos;
+    logic                     awvalid;
+    logic                     awready;
 
+    logic [DATA_WIDTH-1:0]    wdata;
+    logic [DATA_WIDTH/8-1:0]  wstrb;
+    logic                     wlast;
+    logic [USER_WIDTH-1:0]    wuser;
+    logic                     wvalid;
+    logic                     wready;
 
-  // AXI Write Address
-  logic [15:0] AWID;
-  logic [31:0] AWADDR;
-  logic [7:0]  AWLEN;
-  logic [2:0]  AWSIZE;
-  logic [1:0]  AWBURST;
-  logic        AWLOCK;
-  logic [3:0]  AWCACHE;
-  logic [2:0]  AWPROT;
-  logic [3:0]  AWREGION;
-  logic [9:0]  AWUSER;
-  logic [3:0]  AWQOS;
-  logic        AWVALID, AWREADY;
+    logic [ID_WIDTH-1:0]      bid;
+    logic [1:0]               bresp;
+    logic                     bvalid;
+    logic [USER_WIDTH-1:0]    buser;
+    logic                     bready;
 
-  // AXI Write Data
-  logic [31:0] WDATA;
-  logic [3:0]  WSTRB;
-  logic        WLAST;
-  logic [9:0]  WUSER;
-  logic        WVALID, WREADY;
+    logic [ID_WIDTH-1:0]      arid;
+    logic [ADDR_WIDTH-1:0]    araddr;
+    logic [7:0]               arlen;
+    logic [2:0]               arsize;
+    logic [1:0]               arburst;
+    logic                     arlock;
+    logic [3:0]               arcache;
+    logic [2:0]               arprot;
+    logic [3:0]               arregion;
+    logic [USER_WIDTH-1:0]    aruser;
+    logic [3:0]               arqos;
+    logic                     arvalid;
+    logic                     arready;
 
-  // AXI Write Response
-  logic [15:0] BID;
-  logic [1:0]  BRESP;
-  logic [9:0]  BUSER;
-  logic        BVALID, BREADY;
+    logic [ID_WIDTH-1:0]      rid;
+    logic [DATA_WIDTH-1:0]    rdata;
+    logic [1:0]               rresp;
+    logic                     rlast;
+    logic [USER_WIDTH-1:0]    ruser;
+    logic                     rvalid;
+    logic                     rready;
 
-  // AXI Read Address
-  logic [15:0] ARID;
-  logic [31:0] ARADDR;
-  logic [7:0]  ARLEN;
-  logic [2:0]  ARSIZE;
-  logic [1:0]  ARBURST;
-  logic        ARLOCK;
-  logic [3:0]  ARCACHE;
-  logic [2:0]  ARPROT;
-  logic [3:0]  ARREGION;
-  logic [9:0]  ARUSER;
-  logic [3:0]  ARQOS;
-  logic        ARVALID, ARREADY;
+    clocking drv_cb @(posedge ACLK);
+        default input #1step output #1;
+        output awid, awaddr, awlen, awsize, awburst, awlock, awcache, awprot, awregion, awuser, awqos, awvalid;
+        output wdata, wstrb, wlast, wuser, wvalid;
+        output bready;
+        output arid, araddr, arlen, arsize, arburst, arlock, arcache, arprot, arregion, aruser, arqos, arvalid;
+        output rready;
+        input  awready, wready, bvalid, bresp, bid, buser, arready, rvalid, rdata, rresp, rlast, rid, ruser;
+    endclocking
 
-  // AXI Read Response
-  logic [15:0] RID;
-  logic [31:0] RDATA;
-  logic [1:0]  RRESP;
-  logic        RLAST;
-  logic [9:0]  RUSER;
-  logic        RVALID, RREADY;
+    clocking mon_cb @(posedge ACLK);
+        default input #1step;
+        input awid, awaddr, awlen, awsize, awburst, awlock, awcache, awprot, awregion, awuser, awqos, awvalid, awready;
+        input wdata, wstrb, wlast, wuser, wvalid, wready;
+        input bready, bvalid, bresp, bid, buser;
+        input arid, araddr, arlen, arsize, arburst, arlock, arcache, arprot, arregion, aruser, arqos, arvalid, arready;
+        input rready, rvalid, rdata, rresp, rlast, rid, ruser;
+    endclocking
 
+    modport DRV_MP (clocking drv_cb, input ACLK, ARESETn);
+    modport MON_MP (clocking mon_cb, input ACLK, ARESETn);
 endinterface

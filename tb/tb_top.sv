@@ -1,17 +1,22 @@
 
 
+
+
+
 `ifndef TB_TOP_SV
 `define TB_TOP_SV
 
-module tb_top;
 
-  import uvm_pkg::*;
-  import axi2apb_pkg::*;
+
+import uvm_pkg::*;
+`include "uvm_macros.svh"
+import axi2apb_pkg::*;
+
+module tb_top;
 
   //==========================================================
   // 1. CLOCK AND RESET
   //==========================================================
-
   logic ACLK;
   logic ARESETn;
 
@@ -23,9 +28,8 @@ module tb_top;
   always #5 ACLK = ~ACLK;
 
   //==========================================================
-  // 2. AXI AND APB INTERFACES
+  // 2. AXI AND APB INTERFACES (Lowercase matching your axi_if)
   //==========================================================
-
   axi_if axi_vif (
     .ACLK    (ACLK),
     .ARESETn (ARESETn)
@@ -39,7 +43,6 @@ module tb_top;
   //==========================================================
   // 3. DUT INSTANTIATION
   //==========================================================
-
   axi2apb #(
     .AXI4_ADDRESS_WIDTH (32),
     .AXI4_RDATA_WIDTH   (32),
@@ -49,193 +52,139 @@ module tb_top;
     .BUFF_DEPTH_SLAVE   (4),
     .APB_ADDR_WIDTH     (32)
   ) dut (
-
-    // -------------------------------------------------------
-    // Clock, Reset and Test Enable
-    // -------------------------------------------------------
-
     .ACLK       (ACLK),
     .ARESETn    (ARESETn),
     .test_en_i  (1'b0),
 
-    // -------------------------------------------------------
     // AXI WRITE ADDRESS CHANNEL (AW)
-    // -------------------------------------------------------
+    .AWID_i     (axi_vif.awid),
+    .AWADDR_i   (axi_vif.awaddr),
+    .AWLEN_i    (axi_vif.awlen),
+    .AWSIZE_i   (axi_vif.awsize),
+    .AWBURST_i  (axi_vif.awburst),
+    .AWLOCK_i   (axi_vif.awlock),
+    .AWCACHE_i  (axi_vif.awcache),
+    .AWPROT_i   (axi_vif.awprot),
+    .AWREGION_i (axi_vif.awregion),
+    .AWUSER_i   (axi_vif.awuser),
+    .AWQOS_i    (axi_vif.awqos),
+    .AWVALID_i  (axi_vif.awvalid),
+    .AWREADY_o  (axi_vif.awready),
 
-    .AWID_i     (axi_vif.AWID),
-    .AWADDR_i   (axi_vif.AWADDR),
-    .AWLEN_i    (axi_vif.AWLEN),
-    .AWSIZE_i   (axi_vif.AWSIZE),
-    .AWBURST_i  (axi_vif.AWBURST),
-    .AWLOCK_i   (axi_vif.AWLOCK),
-    .AWCACHE_i  (axi_vif.AWCACHE),
-    .AWPROT_i   (axi_vif.AWPROT),
-    .AWREGION_i (axi_vif.AWREGION),
-    .AWUSER_i   (axi_vif.AWUSER),
-    .AWQOS_i    (axi_vif.AWQOS),
-    .AWVALID_i  (axi_vif.AWVALID),
-    .AWREADY_o  (axi_vif.AWREADY),
-
-    // -------------------------------------------------------
     // AXI WRITE DATA CHANNEL (W)
-    // -------------------------------------------------------
+    .WDATA_i    (axi_vif.wdata),
+    .WSTRB_i    (axi_vif.wstrb),
+    .WLAST_i    (axi_vif.wlast),
+    .WUSER_i    (axi_vif.wuser),
+    .WVALID_i   (axi_vif.wvalid),
+    .WREADY_o   (axi_vif.wready),
 
-    .WDATA_i    (axi_vif.WDATA),
-    .WSTRB_i    (axi_vif.WSTRB),
-    .WLAST_i    (axi_vif.WLAST),
-    .WUSER_i    (axi_vif.WUSER),
-    .WVALID_i   (axi_vif.WVALID),
-    .WREADY_o   (axi_vif.WREADY),
-
-    // -------------------------------------------------------
     // AXI WRITE RESPONSE CHANNEL (B)
-    // -------------------------------------------------------
+    .BID_o      (axi_vif.bid),
+    .BRESP_o    (axi_vif.bresp),
+    .BUSER_o    (axi_vif.buser),
+    .BVALID_o   (axi_vif.bvalid),
+    .BREADY_i   (axi_vif.bready),
 
-    .BID_o      (axi_vif.BID),
-    .BRESP_o    (axi_vif.BRESP),
-    .BUSER_o    (axi_vif.BUSER),
-    .BVALID_o   (axi_vif.BVALID),
-    .BREADY_i   (axi_vif.BREADY),
-
-    // -------------------------------------------------------
     // AXI READ ADDRESS CHANNEL (AR)
-    // -------------------------------------------------------
+    .ARID_i     (axi_vif.arid),
+    .ARADDR_i   (axi_vif.araddr),
+    .ARLEN_i    (axi_vif.arlen),
+    .ARSIZE_i   (axi_vif.arsize),
+    .ARBURST_i  (axi_vif.arburst),
+    .ARLOCK_i   (axi_vif.arlock),
+    .ARCACHE_i  (axi_vif.arcache),
+    .ARPROT_i   (axi_vif.arprot),
+    .ARREGION_i (axi_vif.arregion),
+    .ARUSER_i   (axi_vif.aruser),
+    .ARQOS_i    (axi_vif.arqos),
+    .ARVALID_i  (axi_vif.arvalid),
+    .ARREADY_o  (axi_vif.arready),
 
-    .ARID_i     (axi_vif.ARID),
-    .ARADDR_i   (axi_vif.ARADDR),
-    .ARLEN_i    (axi_vif.ARLEN),
-    .ARSIZE_i   (axi_vif.ARSIZE),
-    .ARBURST_i  (axi_vif.ARBURST),
-    .ARLOCK_i   (axi_vif.ARLOCK),
-    .ARCACHE_i  (axi_vif.ARCACHE),
-    .ARPROT_i   (axi_vif.ARPROT),
-    .ARREGION_i (axi_vif.ARREGION),
-    .ARUSER_i   (axi_vif.ARUSER),
-    .ARQOS_i    (axi_vif.ARQOS),
-    .ARVALID_i  (axi_vif.ARVALID),
-    .ARREADY_o  (axi_vif.ARREADY),
-
-    // -------------------------------------------------------
     // AXI READ DATA CHANNEL (R)
-    // -------------------------------------------------------
+    .RID_o      (axi_vif.rid),
+    .RDATA_o    (axi_vif.rdata),
+    .RRESP_o    (axi_vif.rresp),
+    .RLAST_o    (axi_vif.rlast),
+    .RUSER_o    (axi_vif.ruser),
+    .RVALID_o   (axi_vif.rvalid),
+    .RREADY_i   (axi_vif.rready),
 
-    .RID_o      (axi_vif.RID),
-    .RDATA_o    (axi_vif.RDATA),
-    .RRESP_o    (axi_vif.RRESP),
-    .RLAST_o    (axi_vif.RLAST),
-    .RUSER_o    (axi_vif.RUSER),
-    .RVALID_o   (axi_vif.RVALID),
-    .RREADY_i   (axi_vif.RREADY),
-
-    // -------------------------------------------------------
     // APB MASTER OUTPUTS
-    // -------------------------------------------------------
+    .PENABLE    (apb_vif.penable),
+    .PWRITE     (apb_vif.pwrite),
+    .PADDR      (apb_vif.paddr),
+    .PSEL       (apb_vif.psel),
+    .PWDATA     (apb_vif.pwdata),
 
-    .PENABLE    (apb_vif.PENABLE),
-    .PWRITE     (apb_vif.PWRITE),
-    .PADDR      (apb_vif.PADDR),
-    .PSEL       (apb_vif.PSEL),
-    .PWDATA     (apb_vif.PWDATA),
-
-    // -------------------------------------------------------
     // APB SLAVE INPUTS
-    // -------------------------------------------------------
-
-    .PRDATA     (apb_vif.PRDATA),
-    .PREADY     (apb_vif.PREADY),
-    .PSLVERR    (apb_vif.PSLVERR)
-
+    .PRDATA     (apb_vif.prdata),
+    .PREADY     (apb_vif.pready),
+    .PSLVERR    (apb_vif.pslverr)
   );
 
   //==========================================================
-  // 4. RESET GENERATION
+  // 4. RESET GENERATION (Runs in parallel with UVM)
   //==========================================================
+  // initial begin
+  //   // ARESETn = 1'b1;
+  //   // #5;
+  //   ARESETn = 1'b0;
+  //   $display("============================================");
+  //   $display("AXI2APB TESTBENCH STARTED - RESET ASSERTED");
+  //   $display("============================================");
+    
+  //   repeat (10) @(posedge ACLK);
+  //   @(negedge ACLK);
+    
+  //   ARESETn = 1'b1;
+  //   $display("[%0t] RESET RELEASED", $time);
+  // end
+initial begin
+    // Start reset deasserted
+    ARESETn = 1'b1;
 
-  initial begin
+    // Wait so 1 -> 0 transition is visible
+    repeat (2) @(negedge ACLK);
 
+    // Assert reset
     ARESETn = 1'b0;
 
     $display("============================================");
-    $display("AXI2APB TESTBENCH STARTED");
-    $display("RESET ASSERTED");
+    $display("[%0t] AXI2APB RESET ASSERTED (1 -> 0)", $time);
     $display("============================================");
 
+    // Hold reset low for 10 clock cycles
     repeat (10) @(posedge ACLK);
 
+    // Release reset safely on falling edge
     @(negedge ACLK);
-
     ARESETn = 1'b1;
 
-    $display("[%0t] RESET RELEASED", $time);
+    $display("[%0t] RESET RELEASED (0 -> 1)", $time);
+end
+  //==========================================================
+  // 5. UVM CONFIGURATION AND TEST START (At Time 0)
+  //==========================================================
+  initial begin
+    // Pass Interfaces to config DB
+    uvm_config_db#(virtual axi_if)::set(null, "*", "axi_vif", axi_vif);
+    uvm_config_db#(virtual apb_if)::set(null, "*", "apb_vif", apb_vif);
 
+    $display("============================================");
+    $display("INTERFACES CONFIGURED - STARTING UVM TEST");
+    $display("============================================");
+
+    // Start Test
+    run_test(); // Test is selected via +UVM_TESTNAME command line
   end
 
   //==========================================================
-  // 5. UVM CONFIGURATION AND TEST START
+  // 6. WAVEFORM DUMP
   //==========================================================
-
   initial begin
-
-    // -------------------------------------------------------
-    // Set AXI Interface
-    // -------------------------------------------------------
-
-    uvm_config_db#(virtual axi_if)::set(
-      null,
-      "uvm_test_top*",
-      "axi_vif",
-      axi_vif
-    );
-
-    // -------------------------------------------------------
-    // Set APB Interface
-    // -------------------------------------------------------
-
-    uvm_config_db#(virtual apb_if)::set(
-      null,
-      "uvm_test_top*",
-      "apb_vif",
-      apb_vif
-    );
-
-    $display("============================================");
-    $display("AXI AND APB INTERFACES CONFIGURED");
-    $display("STARTING UVM TEST");
-    $display("============================================");
-
-    // Test selected using +UVM_TESTNAME
-    run_test("axi2apb_smoke_test");
-
-  end
-
-  //==========================================================
-  // 6. GLOBAL SIMULATION TIMEOUT
-  //==========================================================
-
-  initial begin
-
-    #1000000;
-
-    $display("============================================");
-    $display("ERROR: GLOBAL SIMULATION TIMEOUT");
-    $display("============================================");
-
-    $fatal(1, "AXI2APB Simulation Timeout");
-
-  end
-
-  //==========================================================
-  // 7. WAVEFORM DUMP
-  //==========================================================
-
-
-
-  initial begin
-
-   $vcdplusfile("axi2apb_wave.vpd");
-
+    $vcdplusfile("axi2apb_wave.vpd");
     $vcdpluson;
-
   end
 
 endmodule : tb_top

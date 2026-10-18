@@ -1,0 +1,212 @@
+gui_exclusion -set_force true
+# Preference setting overrides
+gui_create_pref_key -category {Globals} -key {load_detail_for_funcov} -value_type {bool} -value {false}
+
+# State setting overrides
+gui_state_default_create -off -ini
+gui_set_state_value -category Globals -key recent_cov_databases -value {/root/axi2apb/sim/out/build_test_random/simv.vdb /root/axi2apb/sim/out/build_test_smoke/simv.vdb}
+gui_set_state_value -category Globals -key recent_databases -value {{gui_open_db -file waveform.vpd}}
+gui_set_state_value -category Layout -key child_console_size_x -value 1919
+gui_set_state_value -category Layout -key child_console_size_y -value 179
+gui_set_state_value -category Layout -key child_covdetail_docknewline -value false
+gui_set_state_value -category Layout -key child_covdetail_pos_x -value {-2}
+gui_set_state_value -category Layout -key child_covdetail_pos_y -value {-15}
+gui_set_state_value -category Layout -key child_covdetail_size_x -value 1724
+gui_set_state_value -category Layout -key child_covdetail_size_y -value 702
+gui_set_state_value -category Layout -key child_coveragetable_docknewline -value false
+gui_set_state_value -category Layout -key child_coveragetable_pos_x -value {-2}
+gui_set_state_value -category Layout -key child_coveragetable_pos_y -value {-15}
+gui_set_state_value -category Layout -key child_coveragetable_size_x -value 1724
+gui_set_state_value -category Layout -key child_coveragetable_size_y -value 702
+gui_set_state_value -category Layout -key child_data_size_x -value 174
+gui_set_state_value -category Layout -key child_data_size_y -value 710
+gui_set_state_value -category Layout -key child_hier_col3 -value {-1}
+gui_set_state_value -category Layout -key child_hier_colpd -value 0
+gui_set_state_value -category Layout -key child_hier_size_x -value 174
+gui_set_state_value -category Layout -key child_hier_size_y -value 710
+gui_set_state_value -category Layout -key child_source_docknewline -value false
+gui_set_state_value -category Layout -key child_source_pos_x -value {-2}
+gui_set_state_value -category Layout -key child_source_pos_y -value {-15}
+gui_set_state_value -category Layout -key child_source_size_x -value 1574
+gui_set_state_value -category Layout -key child_source_size_y -value 705
+gui_set_state_value -category Layout -key cov_main_pos_x -value 0
+gui_set_state_value -category Layout -key cov_main_pos_y -value 60
+gui_set_state_value -category Layout -key cov_main_size_x -value 1919
+gui_set_state_value -category Layout -key cov_main_size_y -value 1030
+gui_set_state_value -category Layout -key main_pos_x -value 0
+gui_set_state_value -category Layout -key main_pos_y -value 60
+gui_set_state_value -category Layout -key main_size_x -value 1919
+gui_set_state_value -category Layout -key main_size_y -value 1030
+gui_create_state_key -category FindDialog -key m_pMatchCase -value_type bool -value false
+gui_create_state_key -category FindDialog -key m_pMatchWord -value_type bool -value false
+gui_create_state_key -category FindDialog -key m_pUseCombo -value_type string -value {}
+gui_create_state_key -category FindDialog -key m_pWrapAround -value_type bool -value true
+gui_create_state_key -category Layout_CoverageTable_covtblFGroupsList -key names -value_type string -value {Group,    , ,  ,   ,Score,Covergroup,}
+gui_create_state_key -category Layout_CoverageTable_covtblFGroupsList -key orders -value_type string -value 4,0,1,2,3,5,6,
+gui_create_state_key -category Layout_CoverageTable_covtblFGroupsList -key widths -value_type string -value 220,0,25,0,0,125,125,
+gui_create_state_key -category Layout_CoverageTable_covtblInstancesList -key names -value_type string -value {Name,    , ,  ,   ,Score,Line,Toggle,Condition,}
+gui_create_state_key -category Layout_CoverageTable_covtblInstancesList -key orders -value_type string -value 4,0,1,2,3,5,6,7,8,
+gui_create_state_key -category Layout_CoverageTable_covtblInstancesList -key widths -value_type string -value 220,0,25,0,0,125,125,125,125,
+gui_create_state_key -category Layout_CoverageTable_covtblModulesList -key names -value_type string -value {Name,    , ,  ,   ,Score,Line,Toggle,Condition,}
+gui_create_state_key -category Layout_CoverageTable_covtblModulesList -key orders -value_type string -value 4,0,1,2,3,5,6,7,8,
+gui_create_state_key -category Layout_CoverageTable_covtblModulesList -key widths -value_type string -value 220,0,25,0,0,125,125,125,125,
+gui_create_state_key -category Layout_CovDetail_lnListView -key names -value_type string -value Category,Coverage,
+gui_create_state_key -category Layout_CovDetail_lnListView -key orders -value_type string -value 0,1,
+gui_create_state_key -category Layout_CovDetail_lnListView -key widths -value_type string -value 115,125,
+gui_create_state_key -category Layout_CovDetail_tglListView -key names -value_type string -value {Variable, ,  ,   ,Type,Coverage,Display,}
+gui_create_state_key -category Layout_CovDetail_tglListView -key orders -value_type string -value 3,0,1,2,4,5,6,
+gui_create_state_key -category Layout_CovDetail_tglListView -key widths -value_type string -value 140,25,0,0,50,125,998,
+gui_create_state_key -category Layout_CovDetail_tglDetailListView -key names -value_type string -value {Variable, ,  ,   ,0->1,1->0,}
+gui_create_state_key -category Layout_CovDetail_tglDetailListView -key orders -value_type string -value 3,0,1,2,4,5,
+gui_create_state_key -category Layout_CovDetail_tglDetailListView -key widths -value_type string -value 140,25,0,0,50,50,
+gui_create_state_key -category Layout_CovDetail_fsmListView -key names -value_type string -value {FSM, ,  ,   ,State,Transition,Sequence,}
+gui_create_state_key -category Layout_CovDetail_fsmListView -key orders -value_type string -value 3,0,1,2,5,4,6,
+gui_create_state_key -category Layout_CovDetail_fsmListView -key widths -value_type string -value 67,25,0,0,125,125,125,
+gui_create_state_key -category Layout_CovDetail_fsmlist -key names -value_type string -value {Coverage, ,  ,   ,Transition,}
+gui_create_state_key -category Layout_CovDetail_fsmlist -key orders -value_type string -value 3,0,1,2,4,
+gui_create_state_key -category Layout_CovDetail_fsmlist -key widths -value_type string -value 125,25,0,0,79,
+gui_create_state_key -category Layout_CovDetail_cndListView -key names -value_type string -value {Expression, ,  ,   ,ID,Coverage,Line No.,}
+gui_create_state_key -category Layout_CovDetail_cndListView -key orders -value_type string -value 3,0,1,2,4,5,6,
+gui_create_state_key -category Layout_CovDetail_cndListView -key widths -value_type string -value 320,25,0,0,0,125,92,
+gui_create_state_key -category Layout_CovDetail_vector -key names -value_type string -value {ID, ,  ,   ,Coverage,1,2,}
+gui_create_state_key -category Layout_CovDetail_vector -key orders -value_type string -value 3,0,1,2,4,5,6,
+gui_create_state_key -category Layout_CovDetail_vector -key widths -value_type string -value 0,25,0,0,80,24,24,
+gui_create_state_key -category Layout_CovDetail_brListView -key names -value_type string -value {Name, ,  ,   ,Coverage,Line No.,}
+gui_create_state_key -category Layout_CovDetail_brListView -key orders -value_type string -value 3,0,1,2,4,5,
+gui_create_state_key -category Layout_CovDetail_brListView -key widths -value_type string -value 100,25,0,0,125,68,
+gui_create_state_key -category Layout_CovDetail_designAssertListView -key names -value_type string -value {Assert Name,    , ,  ,   ,Attempts,Real Successes,Failures,Incompletes,Category,Severity,}
+gui_create_state_key -category Layout_CovDetail_designAssertListView -key orders -value_type string -value 4,0,1,2,3,5,6,7,8,9,10,
+gui_create_state_key -category Layout_CovDetail_designAssertListView -key widths -value_type string -value 117,0,25,0,0,73,107,65,92,71,66,
+gui_create_state_key -category Layout_CovDetail_codeMiddleSplitter -key value1 -value_type integer -value 10
+gui_create_state_key -category Layout_CovDetail_codeMiddleSplitter -key value2 -value_type integer -value 323
+gui_create_state_key -category Layout_CovDetail_cndSplitter -key value1 -value_type integer -value 100
+gui_create_state_key -category Layout_CovDetail_cndSplitter -key value2 -value_type integer -value 1594
+gui_create_state_key -category Layout_CovDetail_covGrpInsListView -key names -value_type string -value {Cover Group Item,    , ,  ,   ,Definition,Score,Goal,Weight,At Least,Per Instance,Overlap,Auto Bin Max,Print Missing,Comment,}
+gui_create_state_key -category Layout_CovDetail_covGrpInsListView -key orders -value_type string -value 4,0,1,2,3,5,6,7,8,9,10,11,12,13,14,
+gui_create_state_key -category Layout_CovDetail_covGrpInsListView -key widths -value_type string -value 151,0,25,0,0,79,125,33,48,54,80,0,88,85,65,
+gui_create_state_key -category Layout_CovDetail_covGrpDefListView -key names -value_type string -value {Cover Group Item,    , ,  ,   ,Score,Goal,Weight,At Least,Per Instance,Overlap,Auto Bin Max,Print Missing,Comment,}
+gui_create_state_key -category Layout_CovDetail_covGrpDefListView -key orders -value_type string -value 4,0,1,2,3,5,6,7,8,9,10,11,12,13,
+gui_create_state_key -category Layout_CovDetail_covGrpDefListView -key widths -value_type string -value 151,0,25,0,0,125,33,48,54,80,0,88,85,65,
+gui_create_state_key -category Layout_CovDetail_m_CovGrpTable -key names -value_type string -value {Bin Name,    , ,  ,   ,Status,Cross,At Least,Size,Hit Count,}
+gui_create_state_key -category Layout_CovDetail_m_CovGrpTable -key orders -value_type string -value 5,0,1,2,3,4,6,7,8,9,
+gui_create_state_key -category Layout_CovDetail_m_CovGrpTable -key widths -value_type string -value 99,0,25,0,0,150,0,66,42,77,
+gui_create_state_key -category {Layout_CovDetail_assertion list} -key names -value_type string -value {Instance,    , ,  ,   ,Assert Name,Attempts,Real Successes,Failures,Incompletes,Category,Severity,}
+gui_create_state_key -category {Layout_CovDetail_assertion list} -key orders -value_type string -value 4,0,1,2,3,5,6,7,8,9,10,11,
+gui_create_state_key -category {Layout_CovDetail_assertion list} -key widths -value_type string -value 91,0,25,0,0,94,73,107,110,92,71,66,
+gui_create_state_key -category Layout_CovDetail_funMiddleSplitter -key value1 -value_type integer -value 42
+gui_create_state_key -category Layout_CovDetail_funMiddleSplitter -key value2 -value_type integer -value 42
+gui_create_state_key -category Layout_CovDetail_splitterWithPrefVal -key value1 -value_type integer -value 476
+gui_create_state_key -category Layout_CovDetail_splitterWithPrefVal -key value2 -value_type integer -value 194
+gui_state_default_create -off
+
+# Begin command logging
+gui_open_cov -hier ./out/build_test_random/simv.vdb -testdir {} -test {./out/build_test_random/simv/test} -merge MergedTest
+gui_list_expand -id  CovHier.1   {/<Module List>}
+gui_list_collapse -id  CovHier.1   {/<Module List>}
+gui_list_expand -id  CovHier.1   {/<Module List>}
+gui_list_select -id CovHier.1 -current_item_name axi2apb -current_item_type Module  { axi2apb   } -type { Module  }
+gui_show_window -window CoverageTable.1
+gui_list_select -id CoverageTable.1 -list covtblInstancesList { tb_top   }
+gui_list_expand -id CoverageTable.1   tb_top
+gui_list_action -id  CoverageTable.1 -list {covtblInstancesList} tb_top  -column {Toggle} 
+gui_list_action -id  CovHier.1 axi2apb  -type {Module}
+gui_list_select -id CovDetail.1 -list tgl { test_en_i  {ARLEN[7:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { {ARLEN[7:0]}  {ARLEN_i[7:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { {ARLEN_i[7:0]}  ARREADY_o   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { ARREADY_o  {ARSIZE[2:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { {ARSIZE[2:0]}  {ARSIZE_i[2:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { {ARSIZE_i[2:0]}  {AWLEN[7:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { {AWLEN[7:0]}  {AWLEN_i[7:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { {AWLEN_i[7:0]}  AWREADY_o   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { AWREADY_o  BREADY   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { BREADY  {BRESP[1:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { {BRESP[1:0]}  {BRESP_o[1:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { {BRESP_o[1:0]}  PSEL   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { PSEL  RREADY   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { RREADY  {RRESP[1:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { {RRESP[1:0]}  {RRESP_o[1:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { {RRESP_o[1:0]}  WREADY_o   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { WREADY_o  test_en_i   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_exclusion -id CovDetail.1 -recalculate
+gui_list_select -id CovHier.1 -current_item_name axi_ar_buffer -current_item_type Module  { axi2apb  axi_ar_buffer   } -type { Module Module  }
+gui_list_action -id  CovHier.1 axi_ar_buffer  -type {Module}
+gui_exclude_items -id  CovDetail.1   -source {   {  test_en_i  }   } 
+gui_list_select -id CovDetail.1 -list tgl { test_en_i  {slave_len_i[7:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { {slave_len_i[7:0]}  slave_ready_o   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { slave_ready_o  {master_len_o[7:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovHier.1 -current_item_name axi_aw_buffer -current_item_type Module  { axi_ar_buffer  axi_aw_buffer   } -type { Module Module  }
+gui_list_action -id  CovHier.1 axi_aw_buffer  -type {Module}
+gui_exclude_items -id  CovDetail.1   -source {   {  test_en_i  }   } 
+gui_list_select -id CovDetail.1 -list tgl { test_en_i  {slave_len_i[7:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { {slave_len_i[7:0]}  slave_ready_o   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { slave_ready_o  {master_len_o[7:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovHier.1 -current_item_name axi_b_buffer -current_item_type Module  { axi_aw_buffer  axi_b_buffer   } -type { Module Module  }
+gui_list_action -id  CovHier.1 axi_b_buffer  -type {Module}
+gui_exclude_items -id  CovDetail.1   -source {   {  test_en_i  }   } 
+gui_list_select -id CovDetail.1 -list tgl { test_en_i  {slave_resp_i[1:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { {slave_resp_i[1:0]}  slave_ready_o   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { slave_ready_o  {master_resp_o[1:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovHier.1 -current_item_name axi_r_buffer -current_item_type Module  { axi_b_buffer  axi_r_buffer   } -type { Module Module  }
+gui_list_action -id  CovHier.1 axi_r_buffer  -type {Module}
+gui_exclude_items -id  CovDetail.1   -source {   {  test_en_i  }   } 
+gui_list_select -id CovDetail.1 -list tgl { test_en_i  {slave_resp_i[1:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { {slave_resp_i[1:0]}  slave_ready_o   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { slave_ready_o  {master_resp_o[1:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovHier.1 -current_item_name axi_single_slice -current_item_type Module  { axi_r_buffer  axi_single_slice   } -type { Module Module  }
+gui_list_action -id  CovHier.1 axi_single_slice  -type {Module}
+gui_exclude_items -id  CovDetail.1   -source {   {  testmode_i  }   } 
+gui_list_select -id CovDetail.1 -list tgl { testmode_i  ready_o   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { ready_o  full   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovHier.1 -current_item_name axi_w_buffer -current_item_type Module  { axi_single_slice  axi_w_buffer   } -type { Module Module  }
+gui_list_action -id  CovHier.1 axi_w_buffer  -type {Module}
+gui_exclude_items -id  CovDetail.1   -source {   {  test_en_i  }   } 
+gui_list_select -id CovDetail.1 -list tgl { test_en_i  slave_ready_o   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovHier.1 -current_item_name fifo -current_item_type Module  { axi_w_buffer  fifo   } -type { Module Module  }
+gui_list_action -id  CovHier.1 fifo  -type {Module}
+gui_exclude_items -id  CovDetail.1   -source {   {  flush_i  }   } 
+gui_list_select -id CovDetail.1 -list tgl { flush_i  full_o   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { full_o  testmode_i   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { testmode_i  threshold_o   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { threshold_o  {status_cnt_n[2:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovDetail.1 -list tgl { {status_cnt_n[2:0]}  {status_cnt_q[2:0]}   }
+gui_exclude_items -id  CovDetail.1  -list { tgl }  -selected
+gui_list_select -id CovHier.1 -current_item_name tb_top -current_item_type Module  { fifo  tb_top   } -type { Module Module  }
+gui_list_action -id  CovHier.1 tb_top  -type {Module}
+gui_exclusion -id CovDetail.1 -recalculate
+gui_exclusion_file -save -file /root/axi2apb/sim/exclusion.el -format newformat

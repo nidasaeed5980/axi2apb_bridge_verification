@@ -1,92 +1,78 @@
-`ifndef AXI_SEQ_ITEM_SV
-`define AXI_SEQ_ITEM_SV
-
-//---------------------------------------
-// AXI Operation Type
-//---------------------------------------
-typedef enum {
-  AXI_READ,
-  AXI_WRITE
-} axi_op_e;
-
-//---------------------------------------
-// AXI Sequence Item
-//---------------------------------------
 class axi_seq_item extends uvm_sequence_item;
 
-  //---------------------------------------
-  // Random transaction fields
-  //---------------------------------------
-  rand axi_op_e       op;
-  rand bit [31:0]     addr;
-  rand bit [31:0]     data;
-  rand bit [15:0]     id;
-  rand bit [9:0]      user;
-  rand bit [3:0]      strb;
+    rand bit        is_write;
+    rand bit [31:0] addr;       
+    rand bit [15:0] id;         
+    rand bit [9:0]  user;       
+    rand bit [31:0] wdata;      
+    rand bit [3:0]  wstrb;      
+    
+    // --- NEW FIELDS FOR BURST EXPERIMENT ---
+    rand bit [7:0]  len;        // Burst Length (0 = single beat, >0 = burst)
+    rand bit [2:0]  size;       // 3'b010 = 4 bytes
+    rand bit [1:0]  burst;      // 2'b01 = INCR
+    rand bit        wlast;      // Last beat indicator
+   
+    rand bit simultaneous_rw; // If 1, driver sends AW and AR together
+    // FIFO coverage stress controls
+    rand bit          fifo_stress_mode;
+    rand int unsigned fifo_stress_count;
+    rand int unsigned fifo_ready_hold_cycles;
+    // Response Fields
 
-  //---------------------------------------
-  // Transaction delays
-  //---------------------------------------
-  rand int unsigned aw_delay;
-  rand int unsigned w_delay;
-  rand int unsigned resp_ready_delay;
+    bit [31:0] rdata;           
+    bit [1:0]  resp;            
+    bit        rlast;
+    // Timing / Delay Fields
+    rand int unsigned aw_delay;
+    rand int unsigned w_delay;
+    rand int unsigned ar_delay;
+    rand int unsigned bready_delay;
+    rand int unsigned rready_delay;
 
-  //---------------------------------------
-  // Response fields
-  //---------------------------------------
-  bit [31:0]          rdata;
-  bit [1:0]           resp;
-  bit [15:0]          resp_id;
+    // Default Constraints (Safe values for normal tests)
+    constraint c_defaults {
+        soft addr[1:0] == 2'b00; 
+        soft wstrb == 4'hF;  
+        soft len  == 8'd0;  // Default is single beat
+        soft size == 3'b010;
+        soft burst == 2'b01;
+        soft wlast == 1'b1;
+        
+        soft id   inside {[16'h0000 : 16'h000F]};
+        soft user inside {[10'h000 : 10'h00F]};
+        soft aw_delay     == 0;
+        soft w_delay      == 0;
+        soft ar_delay     == 0;
+        soft bready_delay == 0;
+        soft rready_delay == 0;
+        soft simultaneous_rw == 1'b0;
+        soft fifo_stress_mode == 1'b0;
+        soft fifo_stress_count == 12;
+        soft fifo_ready_hold_cycles == 20;
+    }
 
-  //---------------------------------------
-  // UVM Factory Registration
-  // Field Automation Macros
-  //---------------------------------------
-  `uvm_object_utils_begin(axi_seq_item)
+    `uvm_object_utils_begin(axi_seq_item)
+        `uvm_field_int(is_write, UVM_ALL_ON)
+        `uvm_field_int(addr,     UVM_ALL_ON)
+        `uvm_field_int(len,      UVM_ALL_ON)
+        `uvm_field_int(wdata,    UVM_ALL_ON)
+        `uvm_field_int(wlast,    UVM_ALL_ON)
+        `uvm_field_int(rdata,    UVM_ALL_ON)
+        `uvm_field_int(fifo_stress_mode, UVM_ALL_ON)
+        `uvm_field_int(fifo_stress_count, UVM_ALL_ON)
+        `uvm_field_int(fifo_ready_hold_cycles, UVM_ALL_ON)
+    `uvm_object_utils_end
 
-    `uvm_field_enum(axi_op_e, op, UVM_ALL_ON)
+    function new(string name = "axi_seq_item");
+        super.new(name);
+    endfunction
 
-    `uvm_field_int(addr, UVM_ALL_ON)
-    `uvm_field_int(data, UVM_ALL_ON)
-    `uvm_field_int(id,   UVM_ALL_ON)
-    `uvm_field_int(user, UVM_ALL_ON)
-    `uvm_field_int(strb, UVM_ALL_ON)
 
-    `uvm_field_int(aw_delay,         UVM_ALL_ON)
-    `uvm_field_int(w_delay,          UVM_ALL_ON)
-    `uvm_field_int(resp_ready_delay, UVM_ALL_ON)
+    function string convert2string();
+        return $sformatf("[%s] Addr=0x%08h ID=0x%04h LEN=%0d WLAST=%0b WData=0x%08h RData=0x%08h Resp=%0b", 
+                         is_write ? "WRITE" : "READ", addr, id, len, wlast, wdata, rdata, resp);
+    endfunction
+endclass
 
-    `uvm_field_int(rdata,   UVM_ALL_ON)
-    `uvm_field_int(resp,    UVM_ALL_ON)
-    `uvm_field_int(resp_id, UVM_ALL_ON)
 
-  `uvm_object_utils_end
-
-  //---------------------------------------
-  // Constraints
-  //---------------------------------------
-  constraint axi_constraints {
-
-    // 32-bit aligned address
-    addr[1:0] == 2'b00;
-
-    // All 4 bytes enabled
-    strb == 4'b1111;
-
-    // Transaction delays
-    aw_delay inside {[0:5]};
-    w_delay inside {[0:5]};
-    resp_ready_delay inside {[0:5]};
-
-  }
-
-  //---------------------------------------
-  // Constructor
-  //---------------------------------------
-  function new(string name = "axi_seq_item");
-    super.new(name);
-  endfunction : new
-
-endclass : axi_seq_item
-
-`endif

@@ -1,28 +1,17 @@
-`ifndef AXI_SEQUENCER_SV
-`define AXI_SEQUENCER_SV
 
-//---------------------------------------
-// AXI Sequencer
-//---------------------------------------
+
+// ============================================================
+// AXI SEQUENCER
+// Purpose: Acts as a bridge between AXI Sequences and AXI Driver.
+//          It holds the transactions until the driver is ready.
+// ============================================================
 class axi_sequencer extends uvm_sequencer #(axi_seq_item);
+    `uvm_component_utils(axi_sequencer)
 
-  //---------------------------------------
-  // UVM Factory Registration
-  //---------------------------------------
-  `uvm_component_utils(axi_sequencer)
-
-  //---------------------------------------
-  // Constructor
-  //---------------------------------------
-  function new(string name = "axi_sequencer",
-               uvm_component parent = null);
-    super.new(name, parent);
-  endfunction : new
-
-  //---------------------------------------
-  // Build Phase
-  //---------------------------------------
-  virtual function void build_phase(uvm_phase phase);
+    function new(string name, uvm_component parent);
+        super.new(name, parent);
+    endfunction
+    virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
 
     `uvm_info(get_type_name(),
@@ -31,6 +20,4 @@ class axi_sequencer extends uvm_sequencer #(axi_seq_item);
 
   endfunction : build_phase
 
-endclass : axi_sequencer
-
-`endif
+endclass

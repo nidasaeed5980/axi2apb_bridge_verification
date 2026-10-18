@@ -1,100 +1,40 @@
-`ifndef AXI_AGENT_SV
-`define AXI_AGENT_SV
-
-//--------------------------------------------------
+// ============================================================
 // AXI AGENT
-//--------------------------------------------------
+// Purpose: Container for AXI Driver, Monitor, and Sequencer.
+//          It connects them together and configures them as Active/Passive.
+// ============================================================
 class axi_agent extends uvm_agent;
+    `uvm_component_utils(axi_agent)
 
-  //--------------------------------------------------
-  // UVM Factory Registration
-  //--------------------------------------------------
-  `uvm_component_utils(axi_agent)
+    // Agent ke andar ke components (Using our custom sequencer class now)
+    axi_driver    drv;
+    axi_monitor   mon;
+    axi_sequencer sqr;
 
-  //--------------------------------------------------
-  // Component Handles
-  //--------------------------------------------------
-  axi_sequencer seqr;
-  axi_driver    drv;
-  axi_monitor   mon;
+    function new(string name, uvm_component parent);
+        super.new(name, parent);
+    endfunction
 
-  //--------------------------------------------------
-  // Constructor
-  //--------------------------------------------------
-  function new(string name = "axi_agent",
-               uvm_component parent = null);
+    // build_phase: Create the components
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        
+        // 1. Monitor hamesha chalta hai (both Active and Passive mode)
+        mon = axi_monitor::type_id::create("mon", this);
 
-    super.new(name, parent);
+        // 2. Driver and Sequencer are only created in ACTIVE mode
+        if (get_is_active() == UVM_ACTIVE) begin
+            drv = axi_driver::type_id::create("drv", this);
+            sqr = axi_sequencer::type_id::create("sqr", this);
+        end
+    endfunction
 
-  endfunction : new
+    // connect_phase: Connect Driver to Sequencer
+    function void connect_phase(uvm_phase phase);
+        if (get_is_active() == UVM_ACTIVE) begin
+            // Connect driver's port to sequencer's export
+            drv.seq_item_port.connect(sqr.seq_item_export);
+        end
+    endfunction
 
-  //--------------------------------------------------
-  // Build Phase
-  //--------------------------------------------------
-  virtual function void build_phase(uvm_phase phase);
-
-    super.build_phase(phase);
-
-    `uvm_info(get_type_name(),
-              "AXI Agent Build Phase Executed",
-              UVM_LOW)
-
-    //------------------------------------------------
-    // Create AXI Monitor
-    // Monitor is required in active and passive modes
-    //------------------------------------------------
-    mon = axi_monitor::type_id::create("mon", this);
-
-    //------------------------------------------------
-    // Create Driver and Sequencer for Active Agent
-    //------------------------------------------------
-    if (get_is_active() == UVM_ACTIVE) begin
-
-      seqr = axi_sequencer::type_id::create("seqr", this);
-
-      drv = axi_driver::type_id::create("drv", this);
-
-      `uvm_info(get_type_name(),
-                "AXI Agent Configured as ACTIVE",
-                UVM_LOW)
-
-    end
-    else begin
-
-      `uvm_info(get_type_name(),
-                "AXI Agent Configured as PASSIVE",
-                UVM_LOW)
-
-    end
-
-  endfunction : build_phase
-
-  //--------------------------------------------------
-  // Connect Phase
-  //--------------------------------------------------
-  virtual function void connect_phase(uvm_phase phase);
-
-    super.connect_phase(phase);
-
-    `uvm_info(get_type_name(),
-              "AXI Agent Connect Phase Executed",
-              UVM_LOW)
-
-    //------------------------------------------------
-    // Connect Driver to Sequencer
-    //------------------------------------------------
-    if (get_is_active() == UVM_ACTIVE) begin
-
-      drv.seq_item_port.connect(seqr.seq_item_export);
-
-      `uvm_info(get_type_name(),
-                "AXI Driver Connected to AXI Sequencer",
-                UVM_LOW)
-
-    end
-
-  endfunction : connect_phase
-
-endclass : axi_agent
-
-`endif
+endclass

@@ -1,125 +1,164 @@
-`ifndef APB_DRIVER_SV
-`define APB_DRIVER_SV
 
+// // class apb_driver extends uvm_driver #(apb_seq_item);
+// //     `uvm_component_utils(apb_driver)
+// //     virtual apb_if vif;
+
+// //     function new(string name, uvm_component parent);
+// //         super.new(name, parent);
+// //     endfunction
+
+// //     function void build_phase(uvm_phase phase);
+// //         super.build_phase(phase);
+// //         if (!uvm_config_db#(virtual apb_if)::get(this, "", "apb_vif", vif))
+// //             `uvm_fatal(get_type_name(), "No APB virtual interface found!")
+// //     endfunction
+
+// //     task run_phase(uvm_phase phase);
+// //         apb_seq_item tr;
+        
+// //         vif.drv_cb.pready  <= 1'b0;
+// //         vif.drv_cb.prdata  <= 32'h0;
+// //         vif.drv_cb.pslverr <= 1'b0;
+
+// //         wait(vif.PRESETn == 1'b1);
+// //         @(vif.drv_cb);
+
+// //         forever begin
+// //             // 1. Wait for PSEL
+// //             do @(vif.drv_cb); while (vif.drv_cb.psel !== 1'b1);
+            
+// //             // 2. Get response config
+// //             seq_item_port.get_next_item(req);
+// //             tr = req;
+
+// //             // 3. Wait states
+// //             repeat(tr.pready_delay) begin
+// //                 vif.drv_cb.pready <= 1'b0;
+// //                 @(vif.drv_cb);
+// //             end
+
+// //             // 4. Drive response
+// //             vif.drv_cb.pready  <= 1'b1;
+// //             vif.drv_cb.prdata  <= tr.prdata;
+// //             vif.drv_cb.pslverr <= tr.pslverr;
+
+// //             @(vif.drv_cb);
+
+// //             // 5. Cleanup
+// //             vif.drv_cb.pready  <= 1'b0;
+// //             vif.drv_cb.pslverr <= 1'b0;
+
+// //             seq_item_port.item_done();
+// //         end
+// //     endtask
+// // endclass
+
+
+
+// class apb_driver extends uvm_driver #(apb_seq_item);
+//     `uvm_component_utils(apb_driver)
+//     virtual apb_if vif;
+
+//     function new(string name, uvm_component parent);
+//         super.new(name, parent);
+//     endfunction
+
+//     function void build_phase(uvm_phase phase);
+//         super.build_phase(phase);
+//         if (!uvm_config_db#(virtual apb_if)::get(this, "", "apb_vif", vif))
+//             `uvm_fatal(get_type_name(), "No APB virtual interface found!")
+//     endfunction
+
+//     task run_phase(uvm_phase phase);
+//         apb_seq_item tr;
+
+//         vif.drv_cb.pready  <= 1'b0;
+//         vif.drv_cb.prdata  <= 32'h0;
+//         vif.drv_cb.pslverr <= 1'b0;
+
+//         wait(vif.PRESETn == 1'b1);
+
+//         forever begin
+//             // 1. Wait for a REAL access phase.
+//             //    NOTE: this RTL keeps PSEL = 1 always, so PSEL cannot be used.
+//             //    PENABLE = (read_req | write_req) is the real "request" indicator.
+//             do @(vif.drv_cb); while (vif.drv_cb.penable !== 1'b1);
+
+//             // 2. Get response config
+//             seq_item_port.get_next_item(req);
+//             tr = req;
+
+//             // 3. Wait states
+//             repeat(tr.pready_delay) @(vif.drv_cb);
+
+//             // 4. Drive response for exactly one clock
+//             vif.drv_cb.pready  <= 1'b1;
+//             vif.drv_cb.prdata  <= tr.prdata;
+//             vif.drv_cb.pslverr <= tr.pslverr;
+//             @(vif.drv_cb);
+
+//             // 5. Cleanup
+//             vif.drv_cb.pready  <= 1'b0;
+//             vif.drv_cb.pslverr <= 1'b0;
+//             seq_item_port.item_done();
+
+//             // 6. Wait until PENABLE drops, so the same request is not served twice
+//             do @(vif.drv_cb); while (vif.drv_cb.penable === 1'b1);
+//         end
+//     endtask
+// endclass
 class apb_driver extends uvm_driver #(apb_seq_item);
+    `uvm_component_utils(apb_driver)
+    virtual apb_if vif;
+    bit always_ready = 0;   // 1 = PREADY held high all the time (zero-wait slave)
 
-  `uvm_component_utils(apb_driver)
+    function new(string name, uvm_component parent);
+        super.new(name, parent);
+    endfunction
 
-  virtual apb_if vif;
-  apb_seq_item req;
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        if (!uvm_config_db#(virtual apb_if)::get(this, "", "apb_vif", vif))
+            `uvm_fatal(get_type_name(), "No APB virtual interface found!")
+        void'(uvm_config_db#(bit)::get(this, "", "always_ready", always_ready));
+    endfunction
 
-  function new(string name = "apb_driver",
-               uvm_component parent = null);
-    super.new(name, parent);
-  endfunction
+    task run_phase(uvm_phase phase);
+        apb_seq_item tr;
 
-  virtual function void build_phase(uvm_phase phase);
-    super.build_phase(phase);
+        vif.drv_cb.pready  <= 1'b0;
+        vif.drv_cb.prdata  <= 32'h0;
+        vif.drv_cb.pslverr <= 1'b0;
+        wait(vif.PRESETn === 1'b0);
+        wait(vif.PRESETn == 1'b1);
 
-    `uvm_info(get_type_name(), "APB DRIVER BUILD PHASE", UVM_LOW)
+        // Special mode: slave is ready BEFORE the request arrives
+        if (always_ready) begin
+            vif.drv_cb.pready  <= 1'b1;
+            vif.drv_cb.prdata  <= 32'hA5A5_5A5A;
+            vif.drv_cb.pslverr <= 1'b0;
+            forever @(vif.drv_cb);
+        end
 
-    if (!uvm_config_db#(virtual apb_if)::get(
-          this, "", "apb_vif", vif))
-      `uvm_fatal(get_type_name(), "APB Interface Not Found")
-  endfunction
+        forever begin
+            // PSEL is always 1 in this RTL, so PENABLE marks a real access
+            do @(vif.drv_cb); while (vif.drv_cb.penable !== 1'b1);
 
-  virtual task run_phase(uvm_phase phase);
+            seq_item_port.get_next_item(req);
+            tr = req;
 
-    `uvm_info(get_type_name(), "APB DRIVER RUN PHASE", UVM_LOW)
+            repeat(tr.pready_delay) @(vif.drv_cb);
 
-    vif.PREADY  = 0;
-    vif.PRDATA  = 0;
-    vif.PSLVERR = 0;
+            vif.drv_cb.pready  <= 1'b1;
+            vif.drv_cb.prdata  <= tr.prdata;
+            vif.drv_cb.pslverr <= tr.pslverr;
+            @(vif.drv_cb);
 
-    forever begin
+            vif.drv_cb.pready  <= 1'b0;
+            vif.drv_cb.pslverr <= 1'b0;
+            seq_item_port.item_done();
 
-      wait (vif.PRESETn === 1'b1);
-
-      seq_item_port.get_next_item(req);
-
-      drive_transfer(req);
-
-      seq_item_port.item_done();
-
-    end
-
-  endtask
-
-  virtual task drive_transfer(apb_seq_item tr);
-
-    int unsigned count;
-
-    count = 0;
-
-    // Wait for APB SETUP phase
-    do begin
-      @(posedge vif.PCLK);
-    end while (!(vif.PSEL === 1'b1 &&
-                 vif.PENABLE === 1'b0));
-
-    tr.addr  = vif.PADDR;
-    tr.wdata = vif.PWDATA;
-    tr.write = vif.PWRITE;
-
-    `uvm_info(get_type_name(),
-      $sformatf("APB SETUP ADDR=%h WAIT=%0d",
-                tr.addr, tr.wait_cycles),
-      UVM_MEDIUM)
-
-    // Prepare response before ACCESS
-    @(negedge vif.PCLK);
-
-    vif.PRDATA  = tr.rdata;
-    vif.PSLVERR = tr.slverr;
-
-    if (tr.wait_cycles == 0)
-      vif.PREADY = 1;
-    else
-      vif.PREADY = 0;
-
-    // Wait for ACCESS
-    do begin
-      @(posedge vif.PCLK);
-    end while (!(vif.PSEL === 1'b1 &&
-                 vif.PENABLE === 1'b1));
-
-    // Insert configured wait states
-    repeat (tr.wait_cycles) begin
-
-      count++;
-
-      @(negedge vif.PCLK);
-      if (count == tr.wait_cycles)
-        vif.PREADY = 1;
-
-      @(posedge vif.PCLK);
-
-    end
-
-    if (vif.PSEL === 1'b1 &&
-        vif.PENABLE === 1'b1 &&
-        vif.PREADY === 1'b1) begin
-
-      `uvm_info(get_type_name(),
-        $sformatf("APB COMPLETE ADDR=%h WAIT=%0d",
-                  tr.addr, count),
-        UVM_MEDIUM)
-
-    end
-    else begin
-
-      `uvm_error(get_type_name(), "APB HANDSHAKE FAILED")
-
-    end
-
-    // Clear response after transfer
-    @(negedge vif.PCLK);
-
-    vif.PREADY  = 0;
-    vif.PSLVERR = 0;
-
-  endtask
-
-endclass : apb_driver
-
-`endif
+            do @(vif.drv_cb); while (vif.drv_cb.penable === 1'b1);
+        end
+    endtask
+endclass
