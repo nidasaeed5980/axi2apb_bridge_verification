@@ -6,7 +6,7 @@ class axi_seq_item extends uvm_sequence_item;
     rand bit [9:0]  user;       
     rand bit [31:0] wdata;      
     rand bit [3:0]  wstrb;      
-    
+     
     // --- NEW FIELDS FOR BURST EXPERIMENT ---
     rand bit [7:0]  len;        // Burst Length (0 = single beat, >0 = burst)
     rand bit [2:0]  size;       // 3'b010 = 4 bytes
