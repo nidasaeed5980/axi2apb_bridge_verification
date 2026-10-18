@@ -1,7 +1,7 @@
 class axi_driver extends uvm_driver #(axi_seq_item);
     `uvm_component_utils(axi_driver)
     virtual axi_if vif;
-
+ 
     function new(string name, uvm_component parent);
         super.new(name, parent);
     endfunction
