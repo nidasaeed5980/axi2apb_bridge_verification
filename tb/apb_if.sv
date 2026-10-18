@@ -1,6 +1,6 @@
 interface apb_if #(
     parameter ADDR_WIDTH = 32,
-    parameter DATA_WIDTH = 32
+    parameter DATA_WIDTH = 32 
 ) (input logic PCLK, input logic PRESETn);
 
     logic                  penable;
