@@ -78,30 +78,3 @@ class axi2apb_scoreboard extends uvm_scoreboard;
 endclass
 
 
-
-
-// `uvm_analysis_imp_decl(_axi)
-// `uvm_analysis_imp_decl(_apb)
-
-// class axi2apb_scoreboard extends uvm_scoreboard;
-//     `uvm_component_utils(axi2apb_scoreboard)
-    
-//     uvm_analysis_imp_axi #(axi_seq_item, axi2apb_scoreboard) axi_imp;
-//     uvm_analysis_imp_apb #(apb_seq_item, axi2apb_scoreboard) apb_imp;
-
-//     function new(string name, uvm_component parent);
-//         super.new(name, parent);
-//         axi_imp = new("axi_imp", this);
-//         apb_imp = new("apb_imp", this);
-//     endfunction
-
-//     // Jab bhi AXI Monitor data bhejega
-//     function void write_axi(axi_seq_item tr);
-//         `uvm_info("SCB", $sformatf("Received from AXI: %s", tr.convert2string()), UVM_LOW)
-//     endfunction
-
-//     // Jab bhi APB Monitor data bhejega
-//     function void write_apb(apb_seq_item tr);
-//         `uvm_info("SCB", $sformatf("Received from APB: %s", tr.convert2string()), UVM_LOW)
-//     endfunction
-// endclass
