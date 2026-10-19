@@ -6,7 +6,7 @@
 class apb_agent extends uvm_agent;
     `uvm_component_utils(apb_agent)
 
-    // Agent ke andar ke components (Using our custom sequencer class now)
+    
     apb_driver    drv;
     apb_monitor   mon;
     apb_sequencer sqr;
@@ -19,7 +19,7 @@ class apb_agent extends uvm_agent;
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         
-        // 1. Monitor hamesha chalta hai (both Active and Passive mode)
+        
         mon = apb_monitor::type_id::create("mon", this);
 
         // 2. Driver and Sequencer are only created in ACTIVE mode
