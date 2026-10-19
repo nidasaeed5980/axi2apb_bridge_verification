@@ -6,7 +6,6 @@
 class axi_agent extends uvm_agent;
     `uvm_component_utils(axi_agent)
 
-    // Agent ke andar ke components (Using our custom sequencer class now)
     axi_driver    drv;
     axi_monitor   mon;
     axi_sequencer sqr;
@@ -18,8 +17,7 @@ class axi_agent extends uvm_agent;
     // build_phase: Create the components
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        
-        // 1. Monitor hamesha chalta hai (both Active and Passive mode)
+       
         mon = axi_monitor::type_id::create("mon", this);
 
         // 2. Driver and Sequencer are only created in ACTIVE mode
