@@ -9,7 +9,7 @@
 class axi2apb_cov extends uvm_component;
     `uvm_component_utils(axi2apb_cov)
 
-    // Dono Monitors ke liye alag Imports
+    //  Imports for both monitor
     uvm_analysis_imp_axi_cov #(axi_seq_item, axi2apb_cov) axi_imp;
     uvm_analysis_imp_apb_cov #(apb_seq_item, axi2apb_cov) apb_imp;
 
@@ -71,13 +71,13 @@ class axi2apb_cov extends uvm_component;
         cg_cross = new();
     endfunction
 
-    // AXI Monitor se data aayega
+    //  data from AXI Monitor 
     function void write_axi_cov(axi_seq_item t);
         tr_axi = t;
         cg_axi.sample();
     endfunction
 
-    // APB Monitor se data aayega
+    //  data aayega from APB Monitor 
     function void write_apb_cov(apb_seq_item t);
         tr_apb = t;
         cg_apb.sample();
