@@ -20,6 +20,7 @@ class axi_driver extends uvm_driver #(axi_seq_item);
        repeat(5) @(vif.drv_cb); 
         
         forever begin
+            seq_item_port.get_next_item(req);
             if (req.fifo_stress_mode) begin
                 if (req.is_write)
                     do_write_fifo_stress(req);
