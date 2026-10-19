@@ -20,16 +20,6 @@ class axi_driver extends uvm_driver #(axi_seq_item);
        repeat(5) @(vif.drv_cb); 
         
         forever begin
-            seq_item_port.get_next_item(req);
-
-            // Check if the sequence requested a simultaneous Read+Write
-            // if (req.simultaneous_rw) 
-            //     do_simultaneous(req);
-            // else if (req.is_write)   
-            //     do_write(req);
-            // else                     
-            //     do_read(req);
-           // FIFO stress mode: multiple outstanding transactions
             if (req.fifo_stress_mode) begin
                 if (req.is_write)
                     do_write_fifo_stress(req);
@@ -154,13 +144,13 @@ class axi_driver extends uvm_driver #(axi_seq_item);
             end
         join
 
-        // 1. Pehle BVALID ka intezar (BREADY low rakhte hue)
+        // 1. w8 for BVALID  (BREADY low )
         do @(vif.drv_cb); while (vif.drv_cb.bvalid !== 1'b1);
 
         // 2. BVALID aane ke BAAD BREADY mein delay
         repeat(tr.bready_delay) @(vif.drv_cb);
 
-        // 3. BREADY ek cycle ke liye high
+        // 3. BREADY  high for 1 cycle 
         vif.drv_cb.bready <= 1'b1;
         @(vif.drv_cb);
         vif.drv_cb.bready <= 1'b0;
@@ -186,10 +176,10 @@ class axi_driver extends uvm_driver #(axi_seq_item);
             // 1. Pehle RVALID ka intezar (RREADY low rakhte hue)
             do @(vif.drv_cb); while (vif.drv_cb.rvalid !== 1'b1);
 
-            // 2. RVALID aane ke BAAD RREADY mein delay
+            // 2.   delay in RREADY after RVALID
             repeat(tr.rready_delay) @(vif.drv_cb);
 
-            // 3. RREADY ek cycle ke liye high
+            // 3. RREADY  high for 1 cycle
             vif.drv_cb.rready <= 1'b1;
             @(vif.drv_cb);
             vif.drv_cb.rready <= 1'b0;
